@@ -1,0 +1,23 @@
+# To execute this docker-compose yml file use docker-compose -f <file_name> up
+# Add the "-d" flag at the end for deattached execution
+# To rebuild this image you must use `docker-compose build` or `docker-compose up --build`
+version: "3"
+services:
+  jenkins:
+    build: ./jenkins-master
+    container_name: jenkins-master
+    restart: always
+    ports:
+      - "8080:8080"
+      - "9080:9080"
+    restart: always
+    volumes:
+      - jenkins-home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    environment:
+      - JENKINS_JAVA_OPTIONS=-Dorg.apache.commons.jelly.tags.fmt.timeZone=America/New_York
+      - JAVA_OPTS=-Djava.awt.headless=true
+volumes:
+    jenkins-home:
+        external: false      
