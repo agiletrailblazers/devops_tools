@@ -1,0 +1,113 @@
+version: "3.7"
+services:
+  pgdb:
+    image: postgres:9.6.2
+    volumes:
+        - ./postgres:/docker-entrypoint-initdb.d
+        - postgresqldata:/var/lib/postgresql/data
+    environment:
+        - POSTGRES_MULTIPLE_DATABASES=jiradb,confluencedb,bitbucketdb
+        - POSTGRES_USER=atlassian
+        - POSTGRES_PASSWORD=password
+    networks:
+      - atlassiannet
+    ports:
+      - 5432:5432 
+    restart: always
+
+  jira:
+    depends_on:
+      - pgdb
+    build: ./jira
+    networks:
+      - atlassiannet
+    volumes:
+      - jiradata:/var/atlassian/jira
+    ports:
+      - '8080:8080'
+    environment:
+      - 'ATL_JDBC_URL=jdbc:postgresql://pgdb/jiradb'
+      - 'ATL_JDBC_USER=atlassian'
+      - 'ATL_JDBC_PASSWORD=password'
+      - ATL_DB_DRIVER=org.postgresql.Driver
+      - ATL_DB_TYPE=postgres72
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+    labels:
+      com.atb.description: "Atlassian Jira"
+      com.atb.service: "jira"
+    restart: always
+
+  confluence:
+    depends_on:
+      - pgdb
+    image: atlassian/confluence-server:6.15.2
+    networks:
+      - atlassiannet
+    volumes:
+      - confluencedata:/var/atlassian/confluence
+    ports:
+      - 8090:8090
+    environment:
+      - 'ATL_JDBC_URL=jdbc:postgresql://pgdb/confluencedb'
+      - 'ATL_JDBC_USER=atlassian'
+      - 'ATL_JDBC_PASSWORD=password'
+      - ATL_DB_DRIVER=org.postgresql.Driver
+      - ATL_DB_TYPE=postgresql
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+    labels:
+      com.atb.description: "Atlassian Confluence"
+      com.atb.service: "confluence"
+    restart: always
+
+  bitbucket:
+    depends_on:
+      - pgdb
+    build: ./bitbucket
+    networks:
+      - atlassiannet
+    volumes:
+      - bitbucketdata:/var/atlassian/application-data/bitbucket
+    ports:
+      - 8095:7990
+    environment:
+      - 'JDBC_URL=jdbc:postgresql://pgdb/bitbucketdb'
+      - 'JDBC_USER=atlassian'
+      - 'JDBC_PASSWORD=password'
+      - JDBC_DRIVER=org.postgresql.Driver
+      - ATL_DB_TYPE=postgresql
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+    labels:
+      com.atb.description: "Atlassian Bitbucket"
+      com.atb.service: "Bitbucket"
+    restart: always
+
+
+
+
+volumes:
+  jiradata:
+    external: false
+  confluencedata:
+    external: false
+  bitbucketdata:
+    external: false
+  postgresqldata:
+    external: false
+networks:
+  atlassiannet:
+    driver: bridge
