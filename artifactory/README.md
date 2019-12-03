@@ -1,3 +1,5 @@
+Note: This code was cloned from the jfrog/artifactory repo. here is the link. https://github.com/jfrog/artifactory-docker-examples
+
 # Artifactory Docker Examples
 This repository provides some examples that show different ways to run Artifactory with Docker orchestration tools.   
 For more detailed documentation on running Artifactory with Docker, please refer to [Running with Docker](https://www.jfrog.com/confluence/display/RTF/Running+with+Docker) in the JFrog Artifactory User Guide
