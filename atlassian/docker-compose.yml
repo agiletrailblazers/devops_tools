@@ -31,6 +31,7 @@ services:
       - 'ATL_JDBC_PASSWORD=password'
       - ATL_DB_DRIVER=org.postgresql.Driver
       - ATL_DB_TYPE=postgres72
+      - ATL_TOMCAT_CONTEXTPATH=/jira
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
@@ -58,6 +59,7 @@ services:
       - 'ATL_JDBC_PASSWORD=password'
       - ATL_DB_DRIVER=org.postgresql.Driver
       - ATL_DB_TYPE=postgresql
+      - ATL_TOMCAT_CONTEXTPATH=/confluence
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
@@ -85,6 +87,7 @@ services:
       - 'JDBC_PASSWORD=password'
       - JDBC_DRIVER=org.postgresql.Driver
       - ATL_DB_TYPE=postgresql
+      - ATL_TOMCAT_CONTEXTPATH=/bitbucket
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
