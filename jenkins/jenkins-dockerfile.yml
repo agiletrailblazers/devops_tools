@@ -18,6 +18,12 @@ services:
     environment:
       - JENKINS_JAVA_OPTIONS=-Dorg.apache.commons.jelly.tags.fmt.timeZone=America/New_York
       - JAVA_OPTS=-Djava.awt.headless=true
+      - JENKINS_OPTS="--prefix=/jenkins"
+    logging:
+      driver: fluentd
+      options:
+           fluentd-address: "tcp://10.0.0.108:24224"
+           tag: "docker.{{.ID}}"
 volumes:
     jenkins-home:
         external: false      
