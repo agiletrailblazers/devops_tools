@@ -52,7 +52,10 @@ RUN groupadd --gid ${RUN_GID} ${RUN_GROUP} \
     \
     && sed -i -e 's/^# umask/umask/'         ${BITBUCKET_INSTALL_DIR}/bin/_start-webapp.sh
 
+#COPY bitbucket.properties /var/atlassian/application-data/bitbucket/shared/bitbucket.properties
+
 VOLUME ["${BITBUCKET_HOME}"]
+
 
 COPY entrypoint.py \
      shared-components/image/entrypoint_helpers.py  /
