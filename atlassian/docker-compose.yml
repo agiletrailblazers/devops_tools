@@ -32,8 +32,11 @@ services:
       - ATL_DB_DRIVER=org.postgresql.Driver
       - ATL_DB_TYPE=postgres72
       - ATL_TOMCAT_CONTEXTPATH=/jira
+      - ATL_PROXY_NAME=pilot.agiletrailblazers.com
+      - ATL_TOMCAT_SCHEME=https
+      - ATL_PROXY_PORT=443
     logging:
-      # limit logs retained on host to 25MB
+     # limit logs retained on host to 25MB
       driver: "json-file"
       options:
         max-size: "500k"
@@ -60,6 +63,9 @@ services:
       - ATL_DB_DRIVER=org.postgresql.Driver
       - ATL_DB_TYPE=postgresql
       - ATL_TOMCAT_CONTEXTPATH=/confluence
+      - ATL_PROXY_NAME=pilot.agiletrailblazers.com
+      - ATL_TOMCAT_SCHEME=https
+      - ATL_PROXY_PORT=443
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
@@ -88,6 +94,9 @@ services:
       - JDBC_DRIVER=org.postgresql.Driver
       - ATL_DB_TYPE=postgresql
       - ATL_TOMCAT_CONTEXTPATH=/bitbucket
+      - SERVER_PROXY_NAME=pilot.agiletrailblazers.com
+      - SERVER_SCHEME=https
+      - SERVER_PROXY_PORT=443   
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
