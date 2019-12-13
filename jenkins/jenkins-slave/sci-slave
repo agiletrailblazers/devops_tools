@@ -33,6 +33,9 @@ RUN /usr/share/apache-maven-3.6.3/bin/mvn --version
 RUN wget https://services.gradle.org/distributions/gradle-5.0-bin.zip -P /tmp
 RUN unzip -d /opt/gradle /tmp/gradle-*.zip
 
+RUN wget https://services.gradle.org/distributions/gradle-6.0-bin.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-6.0*.zip
+
 # Export some environment variables
 ENV GRADLE_HOME=/opt/gradle/gradle-5.0
 ENV PATH=$PATH:$GRADLE_HOME/bin
