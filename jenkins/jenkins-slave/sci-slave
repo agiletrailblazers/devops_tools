@@ -22,6 +22,14 @@ RUN whoami
 RUN apt-get install -y -f git-core && git --version
 RUN apt-get install -y maven && mvn --version
 
+RUN wget http://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+
+RUN tar -C /usr/share/ -xvzf apache-maven-3.6.3-bin.tar.gz
+
+RUN ls -la /usr/share/
+
+RUN /usr/share/apache-maven-3.6.3/bin/mvn --version
+
 RUN wget https://services.gradle.org/distributions/gradle-5.0-bin.zip -P /tmp
 RUN unzip -d /opt/gradle /tmp/gradle-*.zip
 
