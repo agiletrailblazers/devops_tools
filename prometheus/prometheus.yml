@@ -1,6 +1,48 @@
+global:
+  scrape_interval: 1m
+  scrape_timeout: 10s
+  evaluation_interval: 1m
 scrape_configs:
+- job_name: Jenkins
+  honor_timestamps: true
+  scheme: http
+  static_configs:
+  - targets: ['10.0.0.82:8080']
+  metrics_path: "/jenkins/prometheus"
+- job_name: Jira
+  honor_timestamps: true
+  scheme: http
+  static_configs:
+  - targets: ['10.0.0.39:8080']
+  metrics_path: "/jira/plugins/servlet/prometheus/metrics"
+- job_name: BitBucket
+  honor_timestamps: true
+  scheme: http
+  static_configs:
+  - targets: ['10.0.0.39:8095']
+  metrics_path: "/bitbucket/plugins/servlet/prometheus/metrics"
+- job_name: Confluence
+  honor_timestamps: true
+  scheme: http
+  static_configs:
+  - targets: ['10.0.0.39:8090']
+  metrics_path: "/confluence/plugins/servlet/prometheus/metrics"
 - job_name: cadvisor
-  scrape_interval: 5s
+  honor_timestamps: true
+  metrics_path: /metrics
+  scheme: http
   static_configs:
   - targets:
     - cadvisor:8080
+#- job_name: Artifactory
+#  honor_timestamps: true
+#  scheme: http
+#  static_configs:
+#  - targets: ['10.0.0.54']
+#  metrics_path: "/artifactory"
+#- job_name: SonarQube
+#  honor_timestamps: true
+#  scheme: http
+#  static_configs:
+#  - targets: ['10.0.0.82:9000']
+#  metrics_path: "/sonarqube"
