@@ -34,6 +34,44 @@ scrape_configs:
   static_configs:
   - targets:
     - cadvisor:8080
+<<<<<<< HEAD
+- job_name: 'Prometheus'
+  honor_timestamps: true
+  scheme: http
+  static_configs:
+  - targets: ['10.0.0.199:9090', '10.0.0.199:9115']
+  metrics_path: /metrics
+- job_name: 'Tools URL Monitoring'
+  metrics_path: /probe
+  params:
+    module: [http_monitor]
+  static_configs:
+    - targets:
+      - https://pilot.agiletrailblazers.com/graph
+      - https://pilot.agiletrailblazers.com/jenkins
+      - https://pilot.agiletrailblazers.com/sonarqube
+      - https://pilot.agiletrailblazers.com/artifactory
+      - https://pilot.agiletrailblazers.com/spinnaker
+      - https://pilot.agiletrailblazers.com/kibana
+      - https://pilot.agiletrailblazers.com/elasticsearch
+      - https://pilot.agiletrailblazers.com/jira
+      - https://pilot.agiletrailblazers.com/confluence
+      - https://pilot.agiletrailblazers.com/bitbucket
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: 10.0.0.199:9115  # The blackbox exporter's real hostname:port.
+
+rule_files:
+  - /etc/prometheus/alert.rules.yml
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - '10.0.0.199:9093'
 #- job_name: Artifactory
 #  honor_timestamps: true
 #  scheme: http
