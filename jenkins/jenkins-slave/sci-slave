@@ -19,29 +19,35 @@ RUN pip install ansible
 
 RUN whoami
 
+# install default maven
 RUN apt-get install -y -f git-core && git --version
 RUN apt-get install -y maven && mvn --version
 
+# install maven 3.6.3
 RUN wget http://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-
 RUN tar -C /usr/share/ -xvzf apache-maven-3.6.3-bin.tar.gz
-
-RUN ls -la /usr/share/
-
 RUN /usr/share/apache-maven-3.6.3/bin/mvn --version
 
+# install gradle 5
 RUN wget https://services.gradle.org/distributions/gradle-5.0-bin.zip -P /tmp
 RUN unzip -d /opt/gradle /tmp/gradle-*.zip
 
+# install gradle 6
 RUN wget https://services.gradle.org/distributions/gradle-6.0-bin.zip -P /tmp
 RUN unzip -d /opt/gradle /tmp/gradle-6.0*.zip
 
-# Export some environment variables
+###Install sonarscanner binary#####
+RUN wget https://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/4.2.0.1873/sonar-scanner-cli-4.2.0.1873.zip -P /tmp
+RUN unzip -d /opt /tmp/sonar-scanner-cli-4.2.*.zip
+RUN /opt/sonar-scanner-4.2.0.1873/bin/sonar-scanner --version
+
+# Export environment variables for gradle
 ENV GRADLE_HOME=/opt/gradle/gradle-5.0
-ENV PATH=$PATH:$GRADLE_HOME/bin
-
-
+ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.2.0.1873
+ENV PATH=$PATH:$GRADLE_HOME/bin:$SONAR_SCANNER_HOME/bin
 RUN gradle -v
+RUN sonar-scanner --version
+
 RUN mkdir -p /home/jenkins/.ansible && \
     mkdir -p /home/jenkins/.ssh && \
     chown -R 1000:1000 /home/jenkins/.ansible && \
