@@ -36,16 +36,17 @@ RUN unzip -d /opt/gradle /tmp/gradle-*.zip
 RUN wget https://services.gradle.org/distributions/gradle-6.0-bin.zip -P /tmp
 RUN unzip -d /opt/gradle /tmp/gradle-6.0*.zip
 
-# Export environment variables for gradle
-ENV GRADLE_HOME=/opt/gradle/gradle-5.0
-ENV PATH=$PATH:$GRADLE_HOME/bin
-RUN gradle -v
-
 ###Install sonarscanner binary#####
 RUN wget https://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/4.2.0.1873/sonar-scanner-cli-4.2.0.1873.zip -P /tmp
 RUN unzip -d /opt /tmp/sonar-scanner-cli-4.2.*.zip
 RUN /opt/sonar-scanner-4.2.0.1873/bin/sonar-scanner --version
 
+# Export environment variables for gradle
+ENV GRADLE_HOME=/opt/gradle/gradle-5.0
+ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.2.0.1873
+ENV PATH=$PATH:$GRADLE_HOME/bin:$SONAR_SCANNER_HOME/bin
+RUN gradle -v
+RUN sonar-scanner --version
 
 RUN mkdir -p /home/jenkins/.ansible && \
     mkdir -p /home/jenkins/.ssh && \
