@@ -17,5 +17,6 @@ route:
 receivers:
 - name: 'alert-team'
   slack_configs:
+  send_resolved: true
   - channel: "#devops"
     text: "summary: {{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}"
