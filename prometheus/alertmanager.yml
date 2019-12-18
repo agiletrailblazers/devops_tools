@@ -1,14 +1,19 @@
 global:
-  slack_api_url: "https://hooks.slack.com/services/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"
+  slack_api_url: "https://hooks.slack.com/services/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"
 route:
   group_by: ['instance', 'severity']
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 3h
+  receiver: 'alert-team'
   routes:
   - match:
       alertname: InstanceDown
-  receiver: 'alert-team'
+    receiver: 'alert-team'
+  - match:
+      alertname: EndpointDown
+    receiver: 'alert-team'
+
 receivers:
 - name: 'alert-team'
   slack_configs:
