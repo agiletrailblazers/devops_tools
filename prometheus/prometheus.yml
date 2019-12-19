@@ -52,7 +52,7 @@ scrape_configs:
       - https://pilot.agiletrailblazers.com/artifactory
       - https://pilot.agiletrailblazers.com/spinnaker
       - https://pilot.agiletrailblazers.com/kibana
-      - https://pilot.agiletrailblazers.com/elasticsearch
+#      - https://pilot.agiletrailblazers.com/elasticsearch
       - https://pilot.agiletrailblazers.com/jira
       - https://pilot.agiletrailblazers.com/confluence
       - https://pilot.agiletrailblazers.com/bitbucket
