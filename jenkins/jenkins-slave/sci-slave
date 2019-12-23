@@ -41,6 +41,11 @@ RUN wget https://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanne
 RUN unzip -d /opt /tmp/sonar-scanner-cli-4.2.*.zip
 RUN /opt/sonar-scanner-4.2.0.1873/bin/sonar-scanner --version
 
+### Install node ####
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
+RUN node -v && npm -v
+
 # Export environment variables for gradle
 ENV GRADLE_HOME=/opt/gradle/gradle-5.0
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.2.0.1873
