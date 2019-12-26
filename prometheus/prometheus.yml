@@ -40,13 +40,22 @@ scrape_configs:
   static_configs:
   - targets: ['10.0.0.103:9090', '10.0.0.103:9115']
   metrics_path: /metrics
+
+- job_name: 'node'
+  honor_timestamps: true
+  static_configs:
+  - targets: ['10.0.0.82:9100', '10.0.0.39:9100', '10.0.0.103:9100', '10.0.0.54:9100', '10.0.0.108:9100', '10.0.0.64:9100', '10.0.0.120:9100']
+    labels:
+      group: "pipeline-tools"
+
 - job_name: 'Tools URL Monitoring'
   metrics_path: /probe
   params:
     module: [http_monitor]
   static_configs:
     - targets:
-      - https://pilot.agiletrailblazers.com/graph
+      - https://pilot.agiletrailblazers.com/grafana
+      - https://pilot.agiletrailblazers.com/prometheus
       - https://pilot.agiletrailblazers.com/jenkins
       - https://pilot.agiletrailblazers.com/sonarqube
       - https://pilot.agiletrailblazers.com/artifactory
@@ -70,4 +79,4 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      - '10.0.0.199:9093'
+      - '10.0.0.103:9093'
