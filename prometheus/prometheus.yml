@@ -74,7 +74,7 @@ scrape_configs:
       replacement: 10.0.0.103:9115  # The blackbox exporter's real hostname:port.
 
 rule_files:
-  - /etc/prometheus/alert.rules.yml
+  - /etc/prometheus/alerts/alert.rules*.yml
 alerting:
   alertmanagers:
   - static_configs:
