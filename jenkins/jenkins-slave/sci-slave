@@ -49,16 +49,25 @@ RUN node -v && npm -v
 ### Install spin cli ###
 RUN curl -LO https://storage.googleapis.com/spinnaker-artifacts/spin/$(curl -s https://storage.googleapis.com/spinnaker-artifacts/spin/latest)/linux/amd64/spin
 RUN chmod +x spin
+RUN chown jenkins:jenkins spin
 RUN mv spin /usr/local/bin/spin
+
+USER jenkins
+# Spinnaker Config
 RUN spin --version 
+RUN mkdir /home/jenkins/.spin/
+ADD config /home/jenkins/.spin/
 
-
+USER root
 # Export environment variables for gradle
 ENV GRADLE_HOME=/opt/gradle/gradle-5.0
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.2.0.1873
 ENV PATH=$PATH:$GRADLE_HOME/bin:$SONAR_SCANNER_HOME/bin
 RUN gradle -v
 RUN sonar-scanner --version
+
+# Export environment variable for DockerRepo
+ENV DOCKERREPO=pilot.agiletrailblazers:8081/docker-local
 
 RUN mkdir -p /home/jenkins/.ansible && \
     mkdir -p /home/jenkins/.ssh && \
