@@ -52,6 +52,14 @@ RUN chmod +x spin
 RUN chown jenkins:jenkins spin
 RUN mv spin /usr/local/bin/spin
 
+### Install chromedriver ###
+RUN wget https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip -P /tmp
+RUN unzip -d /usr/local/bin /tmp/chromedriver_linux64.zip
+RUN chromedriver -v
+
+### Install cucumber ###
+RUN apt-get install -y cucumber
+
 USER jenkins
 # Spinnaker Config
 RUN spin --version 
