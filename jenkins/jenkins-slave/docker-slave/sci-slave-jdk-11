@@ -46,6 +46,10 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs
 RUN node -v && npm -v
 
+### Install protractor ####
+RUN npm install –g protractor
+RUN protractor --version
+
 ### Install spin cli ###
 RUN curl -LO https://storage.googleapis.com/spinnaker-artifacts/spin/$(curl -s https://storage.googleapis.com/spinnaker-artifacts/spin/latest)/linux/amd64/spin
 RUN chmod +x spin
