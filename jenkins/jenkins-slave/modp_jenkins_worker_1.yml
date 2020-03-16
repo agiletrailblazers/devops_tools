@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  jnlp-slave:
+    build:
+      context: jnlp-slave
+      dockerfile: jnlp-slave
+    container_name: jnlp-slave
+    restart: always
+    ports:
+      - "8082:8082"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    command: -url http://10.0.0.217:8080/jenkins 00850d35d9cc55bc023f6c932f2a0f20ba1b8bc584b54e709a70d7c6ea548388 modp_jenkins_worker_1
+    logging:
+      driver: fluentd
+      options:
+           fluentd-address: "tcp://10.0.0.108:24224"
+           tag: "docker.{{.ID}}"

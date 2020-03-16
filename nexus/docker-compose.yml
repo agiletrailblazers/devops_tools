@@ -1,0 +1,27 @@
+# To execute this docker-compose yml file use docker-compose -f <file_name> up
+# Add the "-d" flag at the end for deattached execution
+# To rebuild this image you must use `docker-compose build` or `docker-compose up --build`
+version: "3"
+services:
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus3
+    restart: always
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+    restart: always
+    environment:
+      - NEXUS_CONTEXT=nexus
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - nexus-data:/var/nexus-data
+volumes:
+    nexus-data:
+        external: false   

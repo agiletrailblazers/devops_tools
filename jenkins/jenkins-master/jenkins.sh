@@ -39,3 +39,8 @@ fi
 
 # As argument is not jenkins, assume user want to run his own process, for example a `bash` shell to explore this image
 exec "$@"
+
+# Creating Directory to hold config files to be used by Spinnaker for deployment
+
+mkdir ~/.spin
+cp /config ~/.spin/

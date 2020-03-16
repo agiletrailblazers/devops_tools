@@ -1,0 +1,85 @@
+FROM jenkinsci/slave:latest 
+USER root
+RUN apt-get update && \
+    apt-get -y install apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
+    add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+    $(lsb_release -cs) \
+    stable" && \
+    apt-get update && \
+    apt-get -y install docker-ce
+RUN usermod -a -G docker jenkins
+RUN apt-get update && apt-get install -y python-pip 
+RUN pip install ansible 
+
+RUN whoami
+
+# install default maven
+RUN apt-get install -y -f git-core && git --version
+RUN apt-get install -y maven && mvn --version
+
+# install maven 3.6.3
+RUN wget http://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+RUN tar -C /usr/share/ -xvzf apache-maven-3.6.3-bin.tar.gz
+RUN /usr/share/apache-maven-3.6.3/bin/mvn --version
+
+# install gradle 5
+RUN wget https://services.gradle.org/distributions/gradle-5.0-bin.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-*.zip
+
+# install gradle 6
+RUN wget https://services.gradle.org/distributions/gradle-6.0-bin.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-6.0*.zip
+
+###Install sonarscanner binary#####
+RUN wget https://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/4.2.0.1873/sonar-scanner-cli-4.2.0.1873.zip -P /tmp
+RUN unzip -d /opt /tmp/sonar-scanner-cli-4.2.*.zip
+RUN /opt/sonar-scanner-4.2.0.1873/bin/sonar-scanner --version
+
+### Install node,npm and protractor ####
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
+RUN node -v && npm -v && npm install -g protractor
+RUN protractor --version
+
+### Install spin cli ###
+RUN curl -LO https://storage.googleapis.com/spinnaker-artifacts/spin/$(curl -s https://storage.googleapis.com/spinnaker-artifacts/spin/latest)/linux/amd64/spin
+RUN chmod +x spin
+RUN chown jenkins:jenkins spin
+RUN mv spin /usr/local/bin/spin
+
+### Install chromedriver ###
+RUN wget https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip -P /tmp
+RUN unzip -d /usr/local/bin /tmp/chromedriver_linux64.zip
+RUN chromedriver -v
+
+### Install cucumber ###
+RUN apt-get install -y cucumber
+
+USER jenkins
+# Spinnaker Config
+RUN spin --version 
+RUN mkdir /home/jenkins/.spin/
+ADD config /home/jenkins/.spin/
+
+USER root
+# Export environment variables for gradle
+ENV GRADLE_HOME=/opt/gradle/gradle-5.0
+ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.2.0.1873
+ENV PATH=$PATH:$GRADLE_HOME/bin:$SONAR_SCANNER_HOME/bin
+RUN gradle -v
+RUN sonar-scanner --version
+
+# Export environment variable for DockerRepo
+ENV DOCKERREPO=pilot.agiletrailblazers:8081/docker-local
+
+RUN mkdir -p /home/jenkins/.ansible && \
+    mkdir -p /home/jenkins/.ssh && \
+    chown -R 1000:1000 /home/jenkins/.ansible && \
+    chown -R 1000:1000 /home/jenkins/.ssh
+USER jenkins

@@ -1,0 +1,4 @@
+gate:
+ endpoint: http://13.58.149.118:8084
+auth:
+ enabled: false
