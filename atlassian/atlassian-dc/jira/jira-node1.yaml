@@ -8,7 +8,7 @@ metadata:
 spec:
   storageClassName: gp2
   capacity:
-    storage: 50Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -26,37 +26,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
----
-kind: PersistentVolume   			#Persistent Storage Volume & Claim Node 2
-apiVersion: v1
-metadata:
-  name: jira-home-node2-pv
-  labels:
-    type: local
-    app: jira
-spec:
-  storageClassName: gp2
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/jiradc-home/jira-node2"
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: jira-home-node2-pv-claim
-  labels:
-    app: jira
-spec:
-  storageClassName: gp2
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 50Gi
+      storage: 10Gi
 ---
 kind: PersistentVolume        #Persistent Storage Volume & Claim Shared-Home
 apiVersion: v1
@@ -68,7 +38,7 @@ metadata:
 spec:
   storageClassName: gp2
   capacity:
-    storage: 50Gi
+    storage: 30Gi
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -86,7 +56,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 30Gi
 ---
 apiVersion: v1                           # Jira Deployment Node 1
 kind: Pod
@@ -108,10 +78,10 @@ spec:
         value:  "jira-node-1"
       resources:
         limits:
-          cpu: "2"
+          cpu: "3"
           memory: "6G"
         requests:
-          cpu: "1"
+          cpu: "2"
           memory: "4G"
       volumeMounts:
         - name: "jira-home"
@@ -122,44 +92,6 @@ spec:
     - name: jira-home
       persistentVolumeClaim:
         claimName: jira-home-node1-pv-claim
-    - name: jira-shared-home
-      persistentVolumeClaim:
-        claimName: jira-shared-home-pv-claim
----
-apiVersion: v1                           # Jira Deployment Node 2
-kind: Pod
-metadata:
-  labels:
-    app: jira
-  name: jira-node2
-spec:
-  containers:
-    - name: jira-node2
-      image: "agiletrailblazers/jira-software:8.8.0"
-      ports:
-        - containerPort: 8080
-        - containerPort: 40001
-      env:
-        - name: CLUSTERED
-          value: "true"
-        - name: JIRA_NODE_ID
-          value:  "jira-node-2"
-      resources:
-        limits:
-          cpu: "2"
-          memory: "6G"
-        requests:
-          cpu: "1"
-          memory: "4G"
-      volumeMounts:
-        - name: "jira-home"
-          mountPath: /var/atlassian/application-data/jira
-        - name: "jira-shared-home"
-          mountPath: /var/atlassian/application-data/jira/shared
-  volumes:
-    - name: jira-home
-      persistentVolumeClaim:
-        claimName: jira-home-node2-pv-claim
     - name: jira-shared-home
       persistentVolumeClaim:
         claimName: jira-shared-home-pv-claim
@@ -178,8 +110,4 @@ spec:
     targetPort: 8080
   selector:
     app: jira
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 600
   type: LoadBalancer
