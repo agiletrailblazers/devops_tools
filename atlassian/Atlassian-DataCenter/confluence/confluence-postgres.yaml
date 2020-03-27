@@ -1,0 +1,80 @@
+apiVersion: v1                #Config Maps for PostgreSQL Configurations
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: confluencedb
+  POSTGRES_USER: confluenceadmin
+  POSTGRES_PASSWORD: CLATB2020Admin!
+---
+kind: PersistentVolume        #Persistent Storage Volume & Claim
+apiVersion: v1
+metadata:
+  name: confluence-postgres-pv
+  labels:
+    app: postgres
+spec:
+  storageClassName: gp2
+  capacity:
+    storage: 150Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/confluencedc-postgresdb"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: confluence-postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 150Gi
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:10.4
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: confluence-postgres-pv-claim
+---
+apiVersion: v1                #PostgreSQL Service
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+   app: postgres

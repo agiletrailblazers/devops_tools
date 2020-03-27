@@ -1,0 +1,83 @@
+kind: PersistentVolume   			#Persistent Storage Volume & Claim
+apiVersion: v1
+metadata:
+  name: crowd-home-pv
+  labels:
+    type: local
+    app: crowd
+spec:
+  storageClassName: gp2
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/crowddc-home"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: crowd-home-pv-claim
+  labels:
+    app: crowd
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: extensions/v1beta1    # crowd Deployment
+kind: Deployment
+metadata:
+  labels:
+    app: crowd
+  name: crowd
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: crowd
+      name: crowd
+    spec:
+      containers:
+        - name: crowd
+          image: "atlassian/crowd:4.0.0"
+          ports:
+            - containerPort: 8095
+          resources:
+            limits:
+              cpu: "4"
+              memory: "8G"
+            requests:
+              cpu: "2"
+              memory: "4G"
+          volumeMounts:
+            - name: "crowdhome"
+              mountPath: /var/atlassian/application-data/crowd
+      volumes:
+        - name: crowdhome
+          persistentVolumeClaim:
+            claimName: crowd-home-pv-claim
+---
+apiVersion: v1                #crowd Service
+kind: Service
+metadata:
+  name: crowd-service
+  labels:
+    app: crowd-service
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8095
+  selector:
+    app: crowd
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 600
+  type: LoadBalancer
