@@ -10,7 +10,7 @@ spec:
   capacity:
     storage: 50Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/mnt/confluencedc-home/confluence-node2"
 ---
@@ -23,7 +23,7 @@ metadata:
 spec:
   storageClassName: gp2
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 50Gi

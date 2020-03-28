@@ -10,7 +10,7 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/mnt/crowddc-home"
 ---
@@ -23,7 +23,7 @@ metadata:
 spec:
   storageClassName: gp2
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
@@ -49,11 +49,11 @@ spec:
             - containerPort: 8095
           resources:
             limits:
-              cpu: "4"
-              memory: "8G"
-            requests:
               cpu: "2"
               memory: "4G"
+            requests:
+              cpu: "1"
+              memory: "2G"
           volumeMounts:
             - name: "crowdhome"
               mountPath: /var/atlassian/application-data/crowd

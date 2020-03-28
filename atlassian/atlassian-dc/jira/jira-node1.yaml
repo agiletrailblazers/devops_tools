@@ -10,7 +10,7 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/mnt/jiradc-home/jira-node1"
 ---
@@ -23,7 +23,7 @@ metadata:
 spec:
   storageClassName: gp2
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
@@ -40,7 +40,7 @@ spec:
   capacity:
     storage: 30Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/mnt/jiradc-home/jira-shared-home"
 ---
@@ -53,7 +53,7 @@ metadata:
 spec:
   storageClassName: gp2
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 30Gi
@@ -78,11 +78,11 @@ spec:
         value:  "jira-node-1"
       resources:
         limits:
-          cpu: "3"
-          memory: "6G"
+          cpu: "4"
+          memory: "10G"
         requests:
           cpu: "2"
-          memory: "4G"
+          memory: "6G"
       volumeMounts:
         - name: "jira-home"
           mountPath: /var/atlassian/application-data/jira
