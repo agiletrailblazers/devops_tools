@@ -1,0 +1,32 @@
+apiVersion: v1                                       #Jira Service
+kind: Service
+metadata:
+  name: jira-service
+  labels:
+    app: jira-service
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: jira
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 600
+  type: LoadBalancer
+---
+apiVersion: v1                #PostgreSQL Service
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+   app: postgres

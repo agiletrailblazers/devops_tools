@@ -1,33 +1,3 @@
-kind: PersistentVolume   			#Persistent Storage Volume & Claim
-apiVersion: v1
-metadata:
-  name: crowd-home-pv
-  labels:
-    type: local
-    app: crowd
-spec:
-  storageClassName: gp2
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/crowddc-home"
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: crowd-home-pv-claim
-  labels:
-    app: crowd
-spec:
-  storageClassName: gp2
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
----
 apiVersion: extensions/v1beta1    # crowd Deployment
 kind: Deployment
 metadata:
@@ -61,23 +31,3 @@ spec:
         - name: crowdhome
           persistentVolumeClaim:
             claimName: crowd-home-pv-claim
----
-apiVersion: v1                #crowd Service
-kind: Service
-metadata:
-  name: crowd-service
-  labels:
-    app: crowd-service
-spec:
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8095
-  selector:
-    app: crowd
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 600
-  type: LoadBalancer

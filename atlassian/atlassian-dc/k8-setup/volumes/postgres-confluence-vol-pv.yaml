@@ -1,0 +1,28 @@
+kind: PersistentVolume        #Persistent Storage Volume & Claim
+apiVersion: v1
+metadata:
+  name: confluence-postgres-pv
+  labels:
+    app: postgres
+spec:
+  storageClassName: gp2
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/confluencedc-postgresdb"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: confluence-postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

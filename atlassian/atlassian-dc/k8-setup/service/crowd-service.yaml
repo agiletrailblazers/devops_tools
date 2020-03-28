@@ -1,0 +1,32 @@
+apiVersion: v1                #crowd Service
+kind: Service
+metadata:
+  name: crowd-service
+  labels:
+    app: crowd-service
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8095
+  selector:
+    app: crowd
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 600
+  type: LoadBalancer
+---
+apiVersion: v1                #PostgreSQL Service
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+   app: postgres

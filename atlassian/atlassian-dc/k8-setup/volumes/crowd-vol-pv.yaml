@@ -1,0 +1,29 @@
+kind: PersistentVolume        #Persistent Storage Volume & Claim
+apiVersion: v1
+metadata:
+  name: crowd-home-pv
+  labels:
+    type: local
+    app: crowd
+spec:
+  storageClassName: gp2
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/crowddc-home"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: crowd-home-pv-claim
+  labels:
+    app: crowd
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

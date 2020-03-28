@@ -9,35 +9,6 @@ data:
   POSTGRES_USER: crowdadmin
   POSTGRES_PASSWORD: CLATB2020Admin!
 ---
-kind: PersistentVolume        #Persistent Storage Volume & Claim
-apiVersion: v1
-metadata:
-  name: crowd-postgres-pv
-  labels:
-    app: postgres
-spec:
-  storageClassName: gp2
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/crowddc-postgresdb"
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: crowd-postgres-pv-claim
-  labels:
-    app: postgres
-spec:
-  storageClassName: gp2
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
----
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -65,16 +36,3 @@ spec:
         - name: postgredb
           persistentVolumeClaim:
             claimName: crowd-postgres-pv-claim
----
-apiVersion: v1                #PostgreSQL Service
-kind: Service
-metadata:
-  name: postgres
-  labels:
-    app: postgres
-spec:
-  type: NodePort
-  ports:
-   - port: 5432
-  selector:
-   app: postgres
