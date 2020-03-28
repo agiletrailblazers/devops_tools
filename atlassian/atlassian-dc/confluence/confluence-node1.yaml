@@ -77,6 +77,8 @@ spec:
           value: "Confluence-cluster"
         - name: ATL_CLUSTER_TYPE
           value: "tcp_ip"
+        - name: ATL_CLUSTER_NODE_NAME
+          value: "confluence-node1"
       resources:
         limits:
           cpu: "4"

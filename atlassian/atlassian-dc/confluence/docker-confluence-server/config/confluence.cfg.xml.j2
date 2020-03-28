@@ -55,7 +55,7 @@
         <property name="confluence.cluster.ttl">{{ atl_cluster_ttl }}</property>
 
       {% elif atl_cluster_type == 'tcp_ip' %}
-        <property name="confluence.cluster.peers">@@confluence_cluster_peers@@</property>
+        <property name="confluence.cluster.peers">{{ atl_cluster_peers }}</property>
 
 
       {% elif atl_cluster_type == 'multicast' %}
