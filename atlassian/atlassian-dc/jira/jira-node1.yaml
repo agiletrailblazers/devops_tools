@@ -15,14 +15,14 @@ spec:
       - name: CLUSTERED
         value: "true"
       - name: JIRA_NODE_ID
-        value:  "jira-node-1"
+        value:  "jira-node1"
       resources:
         limits:
           cpu: "4"
-          memory: "10G"
+          memory: "16G"
         requests:
           cpu: "2"
-          memory: "6G"
+          memory: "8G"
       volumeMounts:
         - name: "jira-home"
           mountPath: /var/atlassian/application-data/jira

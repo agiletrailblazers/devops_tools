@@ -14,7 +14,7 @@ spec:
         - name: ATL_PRODUCT_HOME_SHARED
           value: "/var/atlassian/application-data/confluence/shared-home"
         - name: ATL_CLUSTER_NAME
-          value: "Confluence-cluster"
+          value: "Confluence Cluster"
         - name: ATL_CLUSTER_TYPE
           value: "tcp_ip"
         - name: ATL_CLUSTER_NODE_NAME
@@ -22,10 +22,10 @@ spec:
       resources:
         limits:
           cpu: "4"
-          memory: "8G"
+          memory: "12G"
         requests:
           cpu: "2"
-          memory: "4G"
+          memory: "6G"
       volumeMounts:
         - name: "confluence-home"
           mountPath: /var/atlassian/application-data/confluence
