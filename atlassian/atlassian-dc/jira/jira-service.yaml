@@ -1,22 +1,19 @@
-apiVersion: v1                #crowd Service
+apiVersion: v1                                       #Jira Service
 kind: Service
 metadata:
-  name: crowd-service
+  name: jira-service
   labels:
-    app: crowd-service
+    app: jira-service
 spec:
+  type: NodePort
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8095
+   - port: 8080
   selector:
-    app: crowd
+   app: jira
   sessionAffinity: ClientIP
   sessionAffinityConfig:
     clientIP:
       timeoutSeconds: 600
-  type: LoadBalancer
 ---
 apiVersion: v1                #PostgreSQL Service
 kind: Service

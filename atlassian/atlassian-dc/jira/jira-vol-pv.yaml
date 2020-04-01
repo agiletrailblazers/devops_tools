@@ -1,0 +1,55 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jira-postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jira-home-node1-pv-claim
+  labels:
+    app: jira
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+ name: jira-home-node2-pv-claim
+ labels:
+   app: jira
+spec:
+ storageClassName: nfs-storage
+ accessModes:
+   - ReadWriteOnce
+ resources:
+   requests:
+     storage: 1Mi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jira-shared-home-pv-claim
+  labels:
+    app: jira
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi

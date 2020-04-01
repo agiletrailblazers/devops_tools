@@ -38,23 +38,6 @@ spec:
     - name: confluence-shared-home
       persistentVolumeClaim:
         claimName: confluence-shared-home-pv-claim
----
-apiVersion: v1                #confluence Service
-kind: Service
-metadata:
-  name: confluence-service
-  labels:
-    app: confluence-service
-spec:
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8090
-  selector:
-    app: confluence
-  type: LoadBalancer
-
 ---           #Provide authorization for confluence
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding

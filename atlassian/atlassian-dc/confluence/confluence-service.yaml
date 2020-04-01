@@ -5,18 +5,15 @@ metadata:
   labels:
     app: confluence-service
 spec:
+  type: NodePort
   ports:
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: 8090
+   - port: 8090
   selector:
-    app: confluence
+   app: confluence
   sessionAffinity: ClientIP
   sessionAffinityConfig:
     clientIP:
       timeoutSeconds: 600
-  type: LoadBalancer
 ---
 apiVersion: v1                #PostgreSQL Service
 kind: Service

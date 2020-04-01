@@ -16,6 +16,14 @@ spec:
         value: "true"
       - name: JIRA_NODE_ID
         value:  "jira-node1"
+      - name: ATL_TOMCAT_SECURE
+        value: "true"
+      - name: ATL_TOMCAT_SCHEME
+        value: "https"
+      - name: ATL_PROXY_PORT
+        value:  "443"
+      - name: ATL_PROXY_NAME
+        value:  "nginx.agiletrailblazers.com"
       resources:
         limits:
           cpu: "4"

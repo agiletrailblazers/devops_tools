@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: crowd-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "crowd-session"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "600"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "600"
+spec:
+  tls:
+    - hosts:
+      - crowd.agiletrailblazers.com
+      secretName: atb-certs
+  rules:
+  - host: crowd.agiletrailblazers.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: crowd-service
+          servicePort: 8080
