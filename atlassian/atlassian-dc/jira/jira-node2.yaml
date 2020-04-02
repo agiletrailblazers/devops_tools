@@ -23,7 +23,7 @@ spec:
       - name: ATL_PROXY_PORT
         value:  "443"
       - name: ATL_PROXY_NAME
-        value:  "nginx.agiletrailblazers.com"
+        value:  "jira-test.agiletrailblazers.com"
       resources:
         limits:
           cpu: "4"
