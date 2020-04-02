@@ -15,6 +15,15 @@ spec:
       containers:
         - name: crowd
           image: "atlassian/crowd:4.0.0"
+          env:
+            - name: ATL_TOMCAT_SECURE
+              value: "true"
+            - name: ATL_TOMCAT_SCHEME
+              value: "https"
+            - name: ATL_PROXY_PORT
+              value:  "443"
+            - name: ATL_PROXY_NAME
+              value:  "crowd.agiletrailblazers.com"
           ports:
             - containerPort: 8095
           resources:
