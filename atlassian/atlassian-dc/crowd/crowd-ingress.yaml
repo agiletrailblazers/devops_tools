@@ -21,4 +21,4 @@ spec:
       - path: /
         backend:
           serviceName: crowd-service
-          servicePort: 8080
+          servicePort: 8095
