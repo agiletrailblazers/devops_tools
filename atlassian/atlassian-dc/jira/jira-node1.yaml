@@ -23,7 +23,7 @@ spec:
       - name: ATL_PROXY_PORT
         value:  "443"
       - name: ATL_PROXY_NAME
-        value:  "nginx.agiletrailblazers.com"
+        value:  "jira-test.agiletrailblazers.com"
       resources:
         limits:
           cpu: "4"
@@ -43,19 +43,3 @@ spec:
     - name: jira-shared-home
       persistentVolumeClaim:
         claimName: jira-shared-home-pv-claim
----
-apiVersion: v1                                       #Jira Service
-kind: Service
-metadata:
-  name: jira-service
-  labels:
-    app: jira-service
-spec:
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: jira
-  type: LoadBalancer
