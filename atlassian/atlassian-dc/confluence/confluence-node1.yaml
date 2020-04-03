@@ -19,6 +19,14 @@ spec:
           value: "tcp_ip"
         - name: ATL_CLUSTER_NODE_NAME
           value: "confluence-node1"
+        - name: ATL_TOMCAT_SECURE
+          value: "true"
+        - name: ATL_TOMCAT_SCHEME
+          value: "https"
+        - name: ATL_PROXY_PORT
+          value:  "443"
+        - name: ATL_PROXY_NAME
+          value:  "confluence-test.agiletrailblazers.com"
       resources:
         limits:
           cpu: "4"
