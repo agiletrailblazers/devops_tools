@@ -12,10 +12,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - jira-test.agiletrailblazers.com
+      - jira.agiletrailblazers.com
       secretName: atb-certs
   rules:
-  - host: jira-test.agiletrailblazers.com
+  - host: jira.agiletrailblazers.com
     http:
       paths:
       - path: /

@@ -7,15 +7,15 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/session-cookie-name: "confluence-session"
-    nginx.ingress.kubernetes.io/session-cookie-expires: "600"
-    nginx.ingress.kubernetes.io/session-cookie-max-age: "600"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "1000"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "1000"
 spec:
   tls:
     - hosts:
-      - confluence-test.agiletrailblazers.com
+      - confluence.agiletrailblazers.com
       secretName: atb-certs
   rules:
-  - host: confluence-test.agiletrailblazers.com
+  - host: confluence.agiletrailblazers.com
     http:
       paths:
       - path: /

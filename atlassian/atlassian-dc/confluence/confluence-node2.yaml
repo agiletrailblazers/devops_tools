@@ -26,7 +26,7 @@ spec:
         - name: ATL_PROXY_PORT
           value:  "443"
         - name: ATL_PROXY_NAME
-          value:  "confluence-test.agiletrailblazers.com"
+          value:  "confluence.agiletrailblazers.com"
       resources:
         limits:
           cpu: "4"
