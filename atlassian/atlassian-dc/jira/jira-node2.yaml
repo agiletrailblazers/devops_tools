@@ -23,7 +23,13 @@ spec:
       - name: ATL_PROXY_PORT
         value:  "443"
       - name: ATL_PROXY_NAME
-        value:  "jira-test.agiletrailblazers.com"
+        value:  "jira.agiletrailblazers.com"
+      - name: JVM_SUPPORT_RECOMMENDED_ARGS
+        value:  "-Datlassian.plugins.enable.wait=300"
+      - name: JVM_MINIMUM_MEMORY
+        value:  "1024m"
+      - name: JVM_MAXIMUM_MEMORY
+        value:  "4096m"
       resources:
         limits:
           cpu: "4"

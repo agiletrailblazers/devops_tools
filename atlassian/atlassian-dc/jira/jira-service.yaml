@@ -1,4 +1,4 @@
-apiVersion: v1                                       #Jira Service
+apiVersion: v1                #PostgreSQL Service
 kind: Service
 metadata:
   name: jira-service
