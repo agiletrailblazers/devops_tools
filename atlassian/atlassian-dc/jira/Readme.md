@@ -4,7 +4,7 @@ Before you follow these steps, you MUST have following in place to be successful
 2. Ingress controller has been installed (using nginx-ingress controller, this is optional, only if SSL setup is needed)
 3. NFS client has been installed to ensure dynamic provisioning and can be supported for jira, confluence and crowd
 4. you have access to a DNS service provider that needs to be updated with your new domain names
-5. cloud autoscaler is in place to support the cloud autoscaling group based on the container metrics on the worker nodes.
+5. cloud autoscaler is in place to support cloud autoscaling group based on the container metrics on the worker nodes.
 
 # Global Steps - needed to setup the cluster
 1. Setup a storage class
