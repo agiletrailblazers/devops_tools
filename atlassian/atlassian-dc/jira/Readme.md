@@ -12,11 +12,11 @@ Before you follow these steps, you MUST have following in place to be successful
 
 # Common Steps (for jira, crowd and confluence)
 
-# Jira spoecfic steps
+# Jira specific steps
 
-# Confluence spoecfic steps
+# Confluence specific steps
 
-# Crowd spoecfic steps
+# Crowd specific steps
 
 # Opportunities for additonal refinements
 
