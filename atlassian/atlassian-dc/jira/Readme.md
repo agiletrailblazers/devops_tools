@@ -9,6 +9,7 @@ Before you follow these steps, you MUST have following in place to be successful
 # Global Steps - needed to setup the cluster
 1. Setup a storage class
 2. Setup naespaces for the applications (Jira, Confuencem, Crowd). You can choose to decide and do this in default namespace or in anyother namespace per your business need.
+3. Setup a secret for certs to enable SSL with ingress controller
 
 # Common Steps (for jira, crowd and confluence)
 
