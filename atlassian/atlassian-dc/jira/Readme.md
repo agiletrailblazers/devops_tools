@@ -1,5 +1,27 @@
-Setting up Jira Data Center in Rancher
+# Pre Requistes
+Before you follow these steps, you MUST have following in place to be successful
+1. You have a kubernetes cluster already up and running with necessary worker nodes
+2. Ingress controller has been installed (using nginx-ingress controller, this is optional, only if SSL setup is needed)
+3. NFS client has been installed to ensure dynamic provisioning and can be supported for jira, confluence and crowd
+4. you have access to a DNS service provider that needs to be updated with your new domain names
+5. cloud autoscaler is in place to support the cloud autoscaling group based on the container metrics on the worker nodes.
 
+# Global Steps - needed to setup the cluster
+1. Setup a storage class
+2. Setup naespaces for the applications (Jira, Confuencem, Crowd). You can choose to decide and do this in default namespace or in anyother namespace per your business need.
+
+# Common Steps (for jira, crowd and confluence)
+
+# Jira spoecfic steps
+
+# Confluence spoecfic steps
+
+# Crowd spoecfic steps
+
+# Opportunities for additonal refinements
+
+
+# Original Readme notes
 1. Run the Postgres yaml file to create the DB
 2. Run the Persistent Volume config yaml to get the folders created
 3. Run the Node 1 Yaml and wait for the UI to be accessible 
