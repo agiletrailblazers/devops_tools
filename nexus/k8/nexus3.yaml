@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1    # Nexus Deployment
+kind: Deployment
+metadata:
+  labels:
+    app: nexus
+  name: nexus
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nexus
+      name: nexus
+    spec:
+      securityContext:
+        fsGroup: 200
+      containers:
+        - name: nexus
+          image: "sonatype/nexus3"
+          env:
+            - name: NEXUS_CONTEXT
+              value: "nexus"
+          ports:
+            - containerPort: 8081
+            - containerPort: 8082
+          resources:
+            limits:
+              cpu: "3"
+              memory: "4G"
+          volumeMounts:
+            - name: "nexus-data"
+              mountPath: /nexus-data
+      volumes:
+        - name: nexus-data
+          persistentVolumeClaim:
+            claimName: nexus-data-pv-claim
