@@ -1,3 +1,5 @@
+This chart is forked from helm repo https://kubernetes-charts.storage.googleapis.com
+
 # Spinnaker Chart
 
 [Spinnaker](http://spinnaker.io/) is an open source, multi-cloud continuous delivery platform.
