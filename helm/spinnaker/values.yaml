@@ -33,19 +33,19 @@ halyard:
   ## https://www.spinnaker.io/reference/halyard/custom/#custom-profiles
   ## The contents of the files will be passed through `tpl`, so value interpolation is supported.
   additionalProfileConfigMaps:
-    data: {}
+    data: 
       ## if you're running spinnaker behind a reverse proxy such as a GCE ingress
       ## you may need the following profile settings for the gate profile.
       ## see https://github.com/spinnaker/spinnaker/issues/1630
       ## otherwise its harmless and will likely become default behavior in the future
       ## According to the linked github issue.
-      # gate-local.yml:
-      #   server:
-      #     tomcat:
-      #       protocolHeader: X-Forwarded-Proto
-      #       remoteIpHeader: X-Forwarded-For
-      #       internalProxies: .*
-      #       httpsServerPort: X-Forwarded-Port
+       gate-local.yml:
+         server:
+           tomcat:
+             protocolHeader: X-Forwarded-Proto
+             remoteIpHeader: X-Forwarded-For
+             internalProxies: .*
+             httpsServerPort: X-Forwarded-Port
 
   ## Define custom settings for Spinnaker services. Read more for details:
   ## https://www.spinnaker.io/reference/halyard/custom/#custom-service-settings
