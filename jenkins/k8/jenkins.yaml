@@ -1,0 +1,61 @@
+apiVersion: extensions/v1beta1    # Jenkins Deployment
+kind: Deployment
+metadata:
+  labels:
+    app: jenkins
+  name: jenkins
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jenkins
+      name: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: "jenkins/jenkins"
+          env:
+            - name: JENKINS_OPTS
+              value: "--prefix=/jenkins"
+            - name: JAVA_OPTS
+              value: "-Djava.awt.headless=true"
+            - name: JENKINS_JAVA_OPTIONS
+              value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=America/New_York"
+          ports:
+            - containerPort: 8080
+            - containerPort: 50000
+
+          resources:
+            limits:
+              cpu: "2"
+              memory: "4G"
+          volumeMounts:
+            - name: "jenkins-home"
+              mountPath: /var/jenkins_home
+            - name: "docker-sock-volume"
+              mountPath: /var/run/docker.sock
+      securityContext:
+        fsGroup: 1000
+      volumes:
+        - name: jenkins-home
+          persistentVolumeClaim:
+            claimName: jenkins-home-pv-claim
+        - name: docker-sock-volume
+          hostPath:
+            path: /var/run/docker.sock
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jenkins
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    # Reference to upper's `metadata.name`
+    name: default
+    # Reference to upper's `metadata.namespace`
+    namespace: devops-tools

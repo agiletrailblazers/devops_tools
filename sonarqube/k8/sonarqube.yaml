@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1    # SonarQube Deployment
+kind: Deployment
+metadata:
+  labels:
+    app: sonar
+  name: sonar
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sonar
+      name: sonar
+    spec:
+      containers:
+        - name: sonar
+          image: "sonarqube"
+          env:
+            - name: sonar.web.context
+              value: "/sonarqube"
+          ports:
+            - containerPort: 9000
+          resources:
+            limits:
+              cpu: "1"
+              memory: "3G"
+          volumeMounts:
+            - name: "sonar-data"
+              mountPath: /sonar-data
+      volumes:
+        - name: sonar-data
+          persistentVolumeClaim:
+            claimName: sonar-data-pv-claim
