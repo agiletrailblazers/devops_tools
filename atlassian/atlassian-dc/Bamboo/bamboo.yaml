@@ -1,0 +1,17 @@
+apiVersion: v1                           # Jira Deployment Node 1
+kind: Pod
+metadata:
+  labels:
+    app: bamboo
+  name: bamboo
+spec:
+  containers:
+    - name: bamboo
+      image: "agiletrailblazers/bamboo:7.0"
+      ports:
+        - containerPort: 8085
+        - containerPort: 54663
+      env:
+        - name: BAMBOO_JMS_CONNECTION_PORT
+          value: "54663"
+
