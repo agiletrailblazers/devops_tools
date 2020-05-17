@@ -6,11 +6,29 @@ metadata:
     app: sonar-service
 spec:
   ports:
-    - port: 9000
+    - name: ui
+      port: 9000
       protocol: TCP
       targetPort: 9000
   selector:
     app: sonar
   sessionAffinity: None
   type: ClusterIP
+---
+# [START sonarqube_service_discovery]
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube-service
+spec:
+  ports:
+    - name: db
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    app: sonar-postgres
+  sessionAffinity: None
+  type: ClusterIP
+# [END sonarqube_service_discovery]
 

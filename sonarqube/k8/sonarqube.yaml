@@ -18,6 +18,18 @@ spec:
           env:
             - name: sonar.web.context
               value: "/sonarqube"
+            - name: sonar.jdbc.username
+              valueFrom:
+                configMapKeyRef:
+                  name: sonarqube-postgres-config
+                  key: POSTGRES_USER
+            - name: sonar.jdbc.password
+              valueFrom:
+                configMapKeyRef:
+                  name: sonarqube-postgres-config
+                  key: POSTGRES_PASSWORD
+            - name: sonar.jdbc.url
+              value: "jdbc:postgresql://sonarqube-service.devops-tools.svc.cluster.local:5432/sonarqubedb"
           ports:
             - containerPort: 9000
           resources:
