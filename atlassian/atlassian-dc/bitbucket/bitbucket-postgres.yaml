@@ -1,0 +1,38 @@
+apiVersion: v1                #Config Maps for PostgreSQL Configurations
+kind: ConfigMap
+metadata:
+  name: bitbucket-postgres-config
+  labels:
+    app: bitbucket-postgres
+data:
+  POSTGRES_DB: bitbucketdb
+  POSTGRES_USER: bitbucketadmin
+  POSTGRES_PASSWORD: CLATB2020Admin!
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: bitbucket-postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bitbucket-postgres
+    spec:
+      containers:
+        - name: bitbucket-postgres
+          image: postgres:10.4
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: bitbucket-postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: bitbucket-postgres-pv-claim

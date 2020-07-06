@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: bitbucket-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "bitbucket-session"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "1000"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "1000"
+spec:
+  tls:
+    - hosts:
+      - tools.agiletrailblazers.com
+      secretName: atb-certs
+  rules:
+  - host: tools.agiletrailblazers.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: bitbucket-service
+          servicePort: 7990

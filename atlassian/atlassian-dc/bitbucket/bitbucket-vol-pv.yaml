@@ -1,0 +1,55 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: bitbucket-postgres-pv-claim
+  labels:
+    app: bitbucket-postgres
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: bitbucket-home-node1-pv-claim
+  labels:
+    app: bitbucket
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: bitbucket-home-node2-pv-claim
+  labels:
+    app: bitbucket
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: bitbucket-shared-home-pv-claim
+  labels:
+    app: bitbucket
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
