@@ -22,7 +22,7 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - jiradata:/var/atlassian/jira
+      - jiradata:/var/atlassian/application-data/jira
     ports:
       - '8080:8080'
     environment:
@@ -54,7 +54,7 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - confluencedata:/var/atlassian/confluence
+      - confluencedata:/var/atlassian/application-data/confluence
     ports:
       - 8090:8090
     environment:
