@@ -53,6 +53,8 @@ RUN groupadd --gid ${RUN_GID} ${RUN_GROUP} \
     && sed -i -e 's/^# umask/umask/'         ${BITBUCKET_INSTALL_DIR}/bin/_start-webapp.sh
 
 #COPY bitbucket.properties /var/atlassian/application-data/bitbucket/shared/bitbucket.properties
+RUN echo "atlbitbucket soft nofile 4096" >> /etc/security/limits.conf
+RUN echo "atlbitbucket hard nofile 4096" >> /etc/security/limits.conf
 
 VOLUME ["${BITBUCKET_HOME}"]
 

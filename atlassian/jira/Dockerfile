@@ -25,7 +25,7 @@ ARG TINI_VERSION=v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-ARG JIRA_VERSION=8.0.2
+ARG JIRA_VERSION
 ARG ARTEFACT_NAME=atlassian-jira-software
 ARG DOWNLOAD_URL=https://product-downloads.atlassian.com/software/jira/downloads/${ARTEFACT_NAME}-${JIRA_VERSION}.tar.gz
 
