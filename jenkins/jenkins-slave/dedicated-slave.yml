@@ -11,7 +11,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
-    command: -url http://10.0.0.217:8080/jenkins c63be5a60ce51faaaf4653c806c9c62c9dfed01ea058306d67fa8749cd687757 modp_jenkins_worker_2
+    command: -url http://10.0.0.217:8080/jenkins 9336a74b3d5939149fa8e1c51a24685beab4135f1df8b1ec3484d891aee610b4 dedicated-slave
     logging:
       driver: fluentd
       options:

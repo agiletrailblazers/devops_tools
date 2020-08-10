@@ -65,6 +65,12 @@ RUN apt-get install -y cucumber
 RUN apt-get install -y jq
 RUN apt-get install -y xvfb
 
+### Install requests or Spinnaker ###
+RUN pip install requests
+
+### Install groovy####
+RUN apt-get install -y groovy
+
 ###Configure Jenkins to run Docker Commands####
 
 
