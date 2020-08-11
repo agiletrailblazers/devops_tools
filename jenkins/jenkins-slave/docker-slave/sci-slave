@@ -61,6 +61,14 @@ RUN chromedriver -v
 ### Install cucumber ###
 RUN apt-get install -y cucumber
 
+### Install JQ ###
+RUN apt-get install -y jq
+RUN apt-get install -y xvfb
+RUN pip install requests
+
+### Install groovy
+RUN apt-get install -y groovy
+
 USER jenkins
 # Spinnaker Config
 RUN spin --version 
