@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  ado-agent:
+    build:
+      context: .
+      dockerfile: ado-agent
+    container_name: ado-agent
+    restart: always
+    ports:
+      - "8082:8082"
+    env_file:
+      - ado-variables.env   
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
