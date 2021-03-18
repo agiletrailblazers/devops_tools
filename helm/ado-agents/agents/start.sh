@@ -57,7 +57,7 @@ AZP_AGENT_RESPONSE=$(curl -LsS \
 if echo "$AZP_AGENT_RESPONSE" | jq . >/dev/null 2>&1; then
   AZP_AGENTPACKAGE_URL=$(echo "$AZP_AGENT_RESPONSE" \
     | jq -r '.value | map([.version.major,.version.minor,.version.patch,.downloadUrl]) | sort | .[length-1] | .[3]')
-  echo "This is AZP_AGENTPACKAGE_URL: "+AZP_AGENTPACKAGE_URL
+  echo "This is AZP_AGENTPACKAGE_URL: $AZP_AGENTPACKAGE_URL"
 fi
 
 if [ -z "$AZP_AGENTPACKAGE_URL" -o "$AZP_AGENTPACKAGE_URL" == "null" ]; then
