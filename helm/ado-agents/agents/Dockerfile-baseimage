@@ -15,8 +15,8 @@ RUN apt-get update \
         libcurl4 \
         libicu60 \
         libunwind8 \
-        netcat wget unzip \
-        ibglib2.0-0 libnss3 libx11-6
+        netcat \
+        libssl1.0
 
 WORKDIR /azp
 
