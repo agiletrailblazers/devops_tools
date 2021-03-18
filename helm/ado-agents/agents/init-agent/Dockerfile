@@ -1,7 +1,7 @@
 # Azure DevOps baseimage (../Dockerfile-baseimage)
 # More info: https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops#create-and-build-the-dockerfile-1
-#FROM agiletrailblazers/azdo-agent:4
-FROM czon/azdo-agent
+FROM agiletrailblazers/azdo-agent:4
+#FROM czon/azdo-agent
 
 ENV category init
 
