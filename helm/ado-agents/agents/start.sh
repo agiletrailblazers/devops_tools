@@ -53,6 +53,7 @@ AZP_AGENT_RESPONSE=$(curl -LsS \
   -u user:$(cat "$AZP_TOKEN_FILE") \
   -H 'Accept:application/json;api-version=3.0-preview' \
   "$AZP_URL/_apis/distributedtask/packages/agent?platform=linux-x64")
+echo "This is AZP_AGENT_RESPONSE: $AZP_AGENT_RESPONSE"
 
 if echo "$AZP_AGENT_RESPONSE" | jq . >/dev/null 2>&1; then
   AZP_AGENTPACKAGE_URL=$(echo "$AZP_AGENT_RESPONSE" \
