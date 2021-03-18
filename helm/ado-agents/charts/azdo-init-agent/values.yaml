@@ -7,5 +7,5 @@ env:
 
 image:
   repository: agiletrailblazers/init-agent
-  tag: 4
+  tag: 5
   pullPolicy: Always
