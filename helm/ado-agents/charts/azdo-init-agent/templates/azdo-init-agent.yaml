@@ -23,17 +23,17 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
-          - name: AZP_TOKEN
+          - name: AZDO_TOKEN
             valueFrom:
               secretKeyRef:
                 name: azdo-secret
                 key: azdoToken
-          - name: AZP_URL
+          - name: AZDO_URL
             valueFrom:
               configMapKeyRef:
                 name: azdo-config
                 key: azdoUrl
-          - name: AZP_POOL
+          - name: AZDO_POOL
             valueFrom:
               configMapKeyRef:
                 name: azdo-config
