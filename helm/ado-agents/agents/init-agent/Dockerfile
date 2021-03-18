@@ -20,5 +20,5 @@ RUN wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_LAT
     && chmod g+rwx /root \
     && mkdir /config \
     && chmod g+rwx /config \
-    && helm repo add ado-agents https://github.com/agiletrailblazers/devops_tools/helm/ado-agents
+    && helm repo add ado-agent https://raw.githubusercontent.com/agiletrailblazers/devops_tools/master/helm/ado-agents/charts
 #    && helm repo add zeiss https://zeisscharts.blob.core.windows.net/on-demand-agents
