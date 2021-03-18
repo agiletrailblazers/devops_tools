@@ -53,14 +53,12 @@ AZP_AGENT_RESPONSE=$(curl -LsS \
   -u user:$(cat "$AZP_TOKEN_FILE") \
   -H 'Accept:application/json;api-version=3.0-preview' \
   "$AZP_URL/_apis/distributedtask/packages/agent?platform=linux-x64")
-echo "This is AZP_AGENT_RESPONSE: $AZP_AGENT_RESPONSE"
-
+print_header "$AZP_AGENT_RESPONSE"
 if echo "$AZP_AGENT_RESPONSE" | jq . >/dev/null 2>&1; then
   AZP_AGENTPACKAGE_URL=$(echo "$AZP_AGENT_RESPONSE" \
     | jq -r '.value | map([.version.major,.version.minor,.version.patch,.downloadUrl]) | sort | .[length-1] | .[3]')
-  echo "This is AZP_AGENTPACKAGE_URL: $AZP_AGENTPACKAGE_URL"
 fi
-
+print_header "$AZP_AGENTPACKAGE_URL"
 if [ -z "$AZP_AGENTPACKAGE_URL" -o "$AZP_AGENTPACKAGE_URL" == "null" ]; then
   echo 1>&2 "error: could not determine a matching Azure Pipelines agent - check that account '$AZP_URL' is correct and the token is valid for that account"
   exit 1
@@ -73,7 +71,7 @@ curl -LsS $AZP_AGENTPACKAGE_URL | tar -xz & wait $!
 source ./env.sh
 
 print_header "3. Configuring Azure Pipelines agent..."
-./bin/installdependencies.sh
+
 ./config.sh --unattended \
   --agent "${AZP_AGENT_NAME:-$(hostname)}" \
   --url "$AZP_URL" \
