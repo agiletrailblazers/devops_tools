@@ -1,0 +1,11 @@
+replicas: 1
+
+namespace: ado-agents
+env:
+  azdoUrl: https://dev.azure.com/cirruslabs-cloud
+  azdoPool: On-Demand
+
+image:
+  repository: agiletrailblazers/init-agent
+  tag: latest
+  pullPolicy: Always

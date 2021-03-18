@@ -1,0 +1,5 @@
+namespace: ado-agents
+agent:
+  repository: agiletrailblazers/demand-agent
+  type: nodejs
+  pullPolicy: Always
