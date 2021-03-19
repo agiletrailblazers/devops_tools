@@ -46,5 +46,5 @@ spec:
         # directory location on host
         path: /var/run/docker.sock
     - name: docker-binary
-        hostpath:
-          path: /usr/bin/docker
+      hostpath:
+        path: /usr/bin/docker
