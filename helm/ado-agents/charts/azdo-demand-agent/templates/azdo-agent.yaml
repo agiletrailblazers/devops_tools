@@ -14,11 +14,11 @@ spec:
       volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-volume
-        volumes:
-          - name: docker-volume
-            hostPath:
-              # directory location on host
-              path: /var/run/docker.sock
+  volumes:
+    - name: docker-volume
+      hostPath:
+        # directory location on host
+        path: /var/run/docker.sock
       env:
         - name: AZP_TOKEN
           valueFrom:
