@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: {{ .Release.Name }}
-      image: "{{ .Values.agent.repository }}:{{ .Values.agent.type }}"
+      image: "{{ .Values.agent.repository }}:{{ .Values.agent.tag }}"
       imagePullPolicy: {{ .Values.agent.pullPolicy }}
       env:
         - name: AZP_TOKEN
