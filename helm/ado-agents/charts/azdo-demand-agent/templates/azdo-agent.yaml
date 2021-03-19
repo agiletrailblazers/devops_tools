@@ -11,6 +11,14 @@ spec:
     - name: {{ .Release.Name }}
       image: "{{ .Values.agent.repository }}:{{ .Values.agent.tag }}"
       imagePullPolicy: {{ .Values.agent.pullPolicy }}
+      volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: docker-volume
+        volumes:
+          - name: docker-volume
+            hostPath:
+              # directory location on host
+              path: /var/run/docker.sock
       env:
         - name: AZP_TOKEN
           valueFrom:
