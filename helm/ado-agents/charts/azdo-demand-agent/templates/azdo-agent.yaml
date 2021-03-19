@@ -13,7 +13,9 @@ spec:
       imagePullPolicy: {{ .Values.agent.pullPolicy }}
       volumeMounts:
       - mountPath: /var/run/docker.sock
-        name: docker-volume
+        name: docker-socket
+      - mountPath: /usr/bin/docker
+        name: docker-binary
       env:
         - name: AZP_TOKEN
           valueFrom:
@@ -39,7 +41,10 @@ spec:
         initialDelaySeconds: 15
         periodSeconds: 5
   volumes:
-    - name: docker-volume
+    - name: docker-socket
       hostPath:
         # directory location on host
         path: /var/run/docker.sock
+    - name: docker-binary
+        hostpath:
+          path: /usr/bin/docker
