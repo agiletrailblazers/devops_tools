@@ -31,13 +31,13 @@ spec:
               name: azdo-config
               key: azdoPool
       readinessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - "cat /azp/agent/_diag/Agent_*.log | grep \"Listening for Jobs\""
-          initialDelaySeconds: 15
-          periodSeconds: 5
+        exec:
+          command:
+          - /bin/sh
+          - -c
+          - "cat /azp/agent/_diag/Agent_*.log | grep \"Listening for Jobs\""
+        initialDelaySeconds: 15
+        periodSeconds: 5
   volumes:
     - name: docker-volume
       hostPath:
