@@ -47,6 +47,7 @@ RUN mv spin /usr/local/bin/spin
 ### Install chromedriver ###
 RUN wget https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip -P /tmp
 RUN unzip -d /usr/local/bin /tmp/chromedriver_linux64.zip
+RUN apt-get install -y libx11-dev
 RUN chromedriver -v
 
 ### Install cucumber ###
@@ -59,6 +60,10 @@ RUN pip install requests
 
 ### Install groovy
 RUN apt-get install -y groovy
+
+### Install anchore-cli
+RUN pip install anchorecli
+RUN export PATH="$HOME/.local/bin/:$PATH"
 
 #USER azdo
 # Spinnaker Config
