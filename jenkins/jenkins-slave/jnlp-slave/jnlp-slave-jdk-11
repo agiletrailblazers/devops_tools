@@ -61,6 +61,15 @@ RUN chromedriver -v
 ### Install cucumber ###
 RUN apt-get install -y cucumber
 
+###Configure Jenkins to run Docker Commands####
+
+RUN groupadd -g $HOST_GID docker
+RUN usermod -u $HOST_UID jenkins
+RUN usermod -aG docker jenkins
+
+RUN id -u jenkins
+RUN getent group | grep docker
+
 USER jenkins
 # Spinnaker Config
 RUN spin --version 
@@ -78,10 +87,10 @@ RUN sonar-scanner --version
 # Export environment variable for DockerRepo
 ENV DOCKERREPO=pilot.agiletrailblazers:8081/docker-local
 
-RUN mkdir -p /home/jenkins/.ansible && \
-    mkdir -p /home/jenkins/.ssh && \
-    chown -R 1000:1000 /home/jenkins/.ansible && \
-    chown -R 1000:1000 /home/jenkins/.ssh
+#RUN mkdir -p /home/jenkins/.ansible && \
+#    mkdir -p /home/jenkins/.ssh && \
+#    chown -R 1000:1000 /home/jenkins/.ansible && \
+#    chown -R 1000:1000 /home/jenkins/.ssh
 USER jenkins
 
 
