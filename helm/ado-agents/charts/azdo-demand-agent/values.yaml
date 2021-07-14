@@ -1,5 +1,5 @@
 namespace: ado-agents
 agent:
   repository: agiletrailblazers/demand-agent
-  tag: latest
+  tag: 0714
   pullPolicy: Always

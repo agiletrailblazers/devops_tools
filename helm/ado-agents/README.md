@@ -8,3 +8,11 @@ This repository contains the reference code and examples for the [On-Demand Agen
 - Helm Chart for [Demand Agent](./charts/azdo-demand-agent/README.md)
 - Default docker [images](./agents)
 - [Azure Pipeline example](./azure-pipeline-examples/nodejs.yml) with on-demand agent
+
+
+#####
+cd charts
+delete .tgz files
+helm package azdo-agent
+delete index.yaml
+helm repo index .

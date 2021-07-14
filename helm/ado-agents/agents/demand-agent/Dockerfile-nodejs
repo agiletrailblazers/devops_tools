@@ -25,8 +25,8 @@ RUN apt-get install default-jre
 #RUN unzip -d /opt/gradle /tmp/gradle-*.zip
 
 # install gradle 6
-#RUN wget https://services.gradle.org/distributions/gradle-6.0-bin.zip -P /tmp
-#RUN unzip -d /opt/gradle /tmp/gradle-6.0*.zip
+RUN wget https://services.gradle.org/distributions/gradle-6.0-bin.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-6.0*.zip
 
 ###Install sonarscanner binary#####
 RUN wget https://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/4.6.0.2311/sonar-scanner-cli-4.6.0.2311.zip -P /tmp
@@ -74,9 +74,20 @@ RUN mkdir /home/azdo/.spin/
 ADD config /home/azdo/.spin/
 
 USER root
+#### Install docker ####
+#RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-20.10.7.tgz
+#RUN tar xzvf docker-20.10.7.tgz
+#RUN cp docker/* /usr/bin/
+#RUN dockerd &
+#RUN docker run hello-world
+RUN apt install docker.io -y
+RUN docker --version
+RUN docker run hello-world
+
+RUN docker -v
 # Export environment variables for gradle
 ENV GRADLE_HOME=/opt/gradle/gradle-6.0
-ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.2.0.1873
+ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.0.2311
 ENV PATH=$PATH:$GRADLE_HOME/bin:$SONAR_SCANNER_HOME/bin
 RUN gradle -v
 RUN sonar-scanner --version
