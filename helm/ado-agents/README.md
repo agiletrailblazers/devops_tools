@@ -13,6 +13,6 @@ This repository contains the reference code and examples for the [On-Demand Agen
 #####
 cd charts
 delete .tgz files
-helm package azdo-agent
+helm package azdo-demand-agent
 delete index.yaml
 helm repo index .

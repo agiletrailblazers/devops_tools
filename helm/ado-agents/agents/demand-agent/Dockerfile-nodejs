@@ -80,11 +80,11 @@ USER root
 #RUN cp docker/* /usr/bin/
 #RUN dockerd &
 #RUN docker run hello-world
-RUN apt install docker.io -y
-RUN docker --version
-RUN docker run hello-world
+#RUN apt install docker.io -y
+#RUN docker --version
+#RUN docker run hello-world
 
-RUN docker -v
+#RUN docker -v
 # Export environment variables for gradle
 ENV GRADLE_HOME=/opt/gradle/gradle-6.0
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.0.2311
