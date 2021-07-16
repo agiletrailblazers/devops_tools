@@ -88,6 +88,7 @@ USER root
 #### install the latest version of grype to /usr/local/bin
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 
+
 #RUN docker -v
 # Export environment variables for gradle
 ENV GRADLE_HOME=/opt/gradle/gradle-6.0

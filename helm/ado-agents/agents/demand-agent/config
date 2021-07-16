@@ -1,4 +1,4 @@
 gate:
- endpoint: http://13.58.149.118:8084
+  endpoint: http://20.84.6.108
 auth:
- enabled: false
+  enabled: false
