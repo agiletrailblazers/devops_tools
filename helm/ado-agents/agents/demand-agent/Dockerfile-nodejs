@@ -16,9 +16,9 @@ RUN apt-get install -y -f git-core && git --version
 RUN apt-get install default-jre
 
 # install maven 3.6.3
-#RUN wget http://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-#RUN tar -C /usr/share/ -xvzf apache-maven-3.6.3-bin.tar.gz
-#RUN /usr/share/apache-maven-3.6.3/bin/mvn --version
+RUN wget http://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+RUN tar -C /usr/share/ -xvzf apache-maven-3.6.3-bin.tar.gz
+RUN /usr/share/apache-maven-3.6.3/bin/mvn --version
 
 # install gradle 5
 #RUN wget https://services.gradle.org/distributions/gradle-5.0-bin.zip -P /tmp
@@ -92,7 +92,8 @@ RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh |
 #RUN docker -v
 # Export environment variables for gradle
 ENV GRADLE_HOME=/opt/gradle/gradle-6.0
+ENV MAVEN_HOME=/usr/share/apache-maven-3.6.3
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner-4.6.0.2311
-ENV PATH=$PATH:$GRADLE_HOME/bin:$SONAR_SCANNER_HOME/bin
+ENV PATH=$PATH:$GRADLE_HOME/bin:$SONAR_SCANNER_HOME/bin:$MAVEN_HOME/bin
 RUN gradle -v
 RUN sonar-scanner --version

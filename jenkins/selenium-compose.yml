@@ -5,10 +5,12 @@ services:
   selenium-hub:
     image: selenium/hub:3.12.0-cobalt
     container_name: selenium-hub
+    restart: always
     ports:
       - "4444:4444"
   chrome:
     image: selenium/node-chrome:3.12.0-cobalt
+    restart: always
     depends_on:
       - selenium-hub
     environment:
@@ -16,6 +18,7 @@ services:
       - HUB_PORT=4444
   firefox:
     image: selenium/node-firefox:3.12.0-cobalt
+    restart: always
     depends_on:
       - selenium-hub
     environment:
