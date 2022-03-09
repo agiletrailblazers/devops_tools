@@ -5,6 +5,7 @@ metadata:
     app: confluence
   name: confluence-node2
 spec:
+  restartPolicy: Always
   containers:
     - name: confluence-node2
       image: "agiletrailblazers/confluence-server:7.3.3"
