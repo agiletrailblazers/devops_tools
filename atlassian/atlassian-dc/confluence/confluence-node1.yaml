@@ -8,7 +8,7 @@ spec:
   restartPolicy: Always
   containers:
     - name: confluence-node1
-      image: "agiletrailblazers/confluence-server:7.3.3"
+      image: "atlassian/confluence-server:7.14.0-ubuntu"
       ports:
         - containerPort: 8090
       env:
@@ -52,7 +52,7 @@ spec:
       persistentVolumeClaim:
         claimName: confluence-shared-home-pv-claim
 ---           #Provide authorization for confluence
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: confluence-k8-calls
