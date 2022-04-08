@@ -27,16 +27,16 @@ spec:
       - name: JVM_SUPPORT_RECOMMENDED_ARGS
         value:  "-Datlassian.plugins.enable.wait=300"
       - name: JVM_MINIMUM_MEMORY
-        value:  "1024m"
+        value:  "2048m"
       - name: JVM_MAXIMUM_MEMORY
         value:  "4096m"
       resources:
         limits:
           cpu: "4"
-          memory: "16G"
+          memory: "8G"
         requests:
           cpu: "2"
-          memory: "8G"
+          memory: "4G"
       volumeMounts:
         - name: "jira-home"
           mountPath: /var/atlassian/application-data/jira
