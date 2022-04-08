@@ -135,10 +135,10 @@ data:
     {{- end }}
 
     # adding lines to support SSO login - google api console need to be configured to setup and retrieve the keys first
-    $HAL_COMMAND config security ui edit --override-base-url https://spinnaker-dev.cirruslabs.io
-    $HAL_COMMAND config security api edit --override-base-url https://spingate-dev.cirruslabs.io
-    $HAL_COMMAND config security authn oauth2 edit --provider google \
-      --client-id 1000332346005-om15ma146591t2kd0oo715n64jtvpt4e.apps.googleusercontent.com \
-      --client-secret vVw5OwhOk69HI8SK-BBW-jOE
-    $HAL_COMMAND config security authn oauth2 edit --pre-established-redirect-uri https://spingate-dev.cirruslabs.io/login
-    $HAL_COMMAND config security authn oauth2 enable
+    $HAL_COMMAND config security ui edit --override-base-url https://spinnaker-demo.cirruslabs.io
+    $HAL_COMMAND config security api edit --override-base-url https://spingate-demo.cirruslabs.io
+    # $HAL_COMMAND config security authn oauth2 edit --provider google \
+    #   --client-id 1000332346005-om15ma146591t2kd0oo715n64jtvpt4e.apps.googleusercontent.com \
+    #   --client-secret vVw5OwhOk69HI8SK-BBW-jOE
+    # $HAL_COMMAND config security authn oauth2 edit --pre-established-redirect-uri https://spingate-dev.cirruslabs.io/login
+    # $HAL_COMMAND config security authn oauth2 enable
