@@ -8,18 +8,19 @@ spec:
   restartPolicy: Always
   containers:
     - name: confluence-node2
-      image: "agiletrailblazers/confluence-server:7.3.3"
+      # image: "agiletrailblazers/confluence-server:7.3.3"
+      image: "atlassian/confluence-server:latest"
       ports:
         - containerPort: 8090
       env:
         - name: ATL_PRODUCT_HOME_SHARED
           value: "/var/atlassian/application-data/confluence/shared-home"
-        - name: ATL_CLUSTER_NAME
-          value: "Confluence Cluster"
-        - name: ATL_CLUSTER_TYPE
-          value: "tcp_ip"
-        - name: ATL_CLUSTER_NODE_NAME
-          value: "confluence-node2"
+        # - name: ATL_CLUSTER_NAME
+        #   value: "Confluence Cluster"
+        # - name: ATL_CLUSTER_TYPE
+        #   value: "tcp_ip"
+        # - name: ATL_CLUSTER_NODE_NAME
+        #   value: "confluence-node2"
         - name: ATL_TOMCAT_SECURE
           value: "true"
         - name: ATL_TOMCAT_SCHEME
@@ -34,11 +35,11 @@ spec:
           value:  "4096m"
       resources:
         limits:
-          cpu: "4"
-          memory: "8G"
+          cpu: "6"
+          memory: "12G"
         requests:
-          cpu: "2"
-          memory: "2G"
+          cpu: "4"
+          memory: "6G"
       volumeMounts:
         - name: "confluence-home"
           mountPath: /var/atlassian/application-data/confluence
