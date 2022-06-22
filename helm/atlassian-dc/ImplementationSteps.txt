@@ -1,0 +1,11 @@
+1. Create storage class by using the file storageClass.yaml
+    kubectl apply -f storageClass.yaml
+2. Create postgres for jira using helm.
+    a. Navigate to folder helm/atlassian-dc
+    b. Create pvc claim seperatly
+        kubectl -f postgresjira/postgres-pvc.yaml -n atlassian apply
+
+    c. helm install -n atlassian postgresjira postgresjira/
+    d. helm upgrade -n atlassian --install postgresjira postgresjira/
+
+

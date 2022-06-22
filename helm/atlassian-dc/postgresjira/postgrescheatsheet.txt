@@ -1,0 +1,5 @@
+helm install -n atlassian postgresjira postgresjira/
+
+helm upgrade -n atlassian --install postgresjira postgresjira/
+
+helm uninstall postgresjira -n atlassian --dry-run

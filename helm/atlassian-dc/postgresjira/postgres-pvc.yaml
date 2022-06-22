@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jira-postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: nfs-atlassian-np
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi

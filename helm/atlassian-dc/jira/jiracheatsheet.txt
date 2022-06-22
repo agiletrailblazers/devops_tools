@@ -1,0 +1,13 @@
+SourceCode from https://github.com/atlassian/data-center-helm-charts/blob/main/src/main/charts/jira/values.yaml
+
+Navigate to atlassian-dc
+
+Create pvc
+    kubectl -n atlassian -f jira/jira-node1-pvc.yaml apply
+    kd -n jira -f jira-node1-pvc.yaml apply
+Install helm chart
+    helm install -n atlassian jira jira/
+upgrade helm chart
+    helm upgrade -n atlassian --install jira jira/
+Uninstall helm chart
+    helm uninstall -n atlassian jira

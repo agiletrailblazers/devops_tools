@@ -1,0 +1,57 @@
+apiVersion: v1                           # Jira Deployment Node 1
+kind: Pod
+metadata:
+  labels:
+    app: jira
+  name: jira-node1
+spec:
+  containers:
+    - name: jira-node1
+      image: "atlassian/jira-software:latest"
+      ports:
+        - containerPort: 8080
+        - containerPort: 40001
+      env:
+      - name: CLUSTERED
+        value: "true"
+      - name: JIRA_NODE_ID
+        value:  "jira-node1"
+      #- name: ATL_TOMCAT_SECURE
+      #  value: "true"
+      #- name: ATL_TOMCAT_SCHEME
+      #  value: "https"
+     # - name: ATL_PROXY_PORT
+     #   value:  "443"
+     # - name: ATL_PROXY_NAME
+     #   value:  "jira.agiletrailblazers.com"
+      - name: JVM_SUPPORT_RECOMMENDED_ARGS
+        value:  "-Datlassian.plugins.enable.wait=300"
+     # - name: JVM_MINIMUM_MEMORY
+     #   value:  "1024m"
+     # - name: JVM_MAXIMUM_MEMORY
+     #   value:  "2096m"
+      - name: ATL_JDBC_URL
+        value: "jdbc:postgresql://postgresjira:5432/jiradb"
+      - name: ATL_DB_DRIVER
+        value: "org.postgresql.Driver"
+      - name: ATL_DB_TYPE
+        value: "postgres72"
+      - name: ATL_DB_SCHEMA_NAME
+        value: ""
+      - name: ATL_JDBC_USER
+        valueFrom:
+          secretKeyRef:
+            name: postgresjira-auth
+            key: username
+      - name: ATL_JDBC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: postgresjira-auth
+            key: password
+      #resources:
+      #  limits:
+      #    cpu: "2"
+      #    memory: "16G"
+      #  requests:
+      #    cpu: "1"
+      #    memory: "8G"

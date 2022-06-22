@@ -1,0 +1,309 @@
+## Atlassian Jira Data Center Helm values
+#
+# HEADS UP!
+#
+# Data loss will occur if sections declared as 'REQUIRED' are not configured appropriately!
+# These sections are:
+# - database
+# - volumes
+#
+# Additional details on pre-provisioning these required resources can be found here:
+# https://atlassian.github.io/data-center-helm-charts/userguide/INSTALLATION/#3-configure-database
+# https://atlassian.github.io/data-center-helm-charts/userguide/INSTALLATION/#5-configure-persistent-storage
+#
+# To manage external access to the Jira instance, an ingress resource can also be configured
+# under the 'ingress' stanza. This requires a pre-provisioned ingress controller to be present.
+#
+# Additional details on pre-provisioning an ingress controller can be found here:
+# https://atlassian.github.io/data-center-helm-charts/userguide/INSTALLATION/#4-configure-ingress
+#
+##
+
+
+# -- The initial number of Jira pods that should be started at deployment time.
+# Note that Jira requires manual configuration via the browser post deployment
+# after the first pod is deployed. This configuration must be completed before
+# scaling up additional pods. As such this value should always be kept as 1,
+# but can be altered once manual configuration is complete.
+#
+replicaCount: 1
+# Image configuration
+#
+image:
+  repository: atlassian/jira-software
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+  tag: "latest"
+  
+# K8s ServiceAccount configuration. Give fine-grained identity and authorization
+# to Pods
+#
+serviceAccount:
+  # -- Set to 'true' if a ServiceAccount should be created, or 'false' if it already exists.
+  create: true
+  name: atlassian-np
+  imagePullSecrets: []
+  # - name: secretName
+  annotations: {}
+# REQUIRED - Database configuration
+#
+# Jira requires a backend database. The configuration below can be used to define the
+# database to use and its connection details.
+# https://atlassian.github.io/data-center-helm-charts/userguide/CONFIGURATION/#database-connectivity
+#
+database:
+  type: postgres72
+  url: "jdbc:postgresql://postgresjira:5432/jiradb"
+  driver: org.postgresql.Driver
+  credentials:
+    secretName: postgresjira-auth
+    usernameSecretKey: username
+    passwordSecretKey: password
+volumes:
+  localHome:
+    persistentVolumeClaim:
+      name: "jira-node1-pv-claim"
+      create: false
+      storageClassName:
+      resources:
+        requests:
+          storage: 1Gi
+
+    customVolume: {}
+    mountPath: "/var/atlassian/application-data/jira"
+
+  sharedHome:
+    persistentVolumeClaim:
+      name: jira-shared-home-pv-claim
+      create: false
+      storageClassName:
+      resources:
+        requests:
+          storage: 1Gi
+
+    customVolume: {}
+    mountPath: "/var/atlassian/application-data/shared-home"
+    subPath:
+    nfsPermissionFixer:
+      enabled: true
+      mountPath: "/shared-home"
+      command:
+  additional: []
+
+ingress:
+  create: false
+  className: "nginx"
+  nginx: true
+  maxBodySize: 250m
+  proxyConnectTimeout: 60
+  proxyReadTimeout: 60
+  proxySendTimeout: 60
+  host:
+  path:
+  annotations: {}
+  https: true
+  tlsSecretName:
+
+# Jira configuration
+#
+jira:
+  service:
+    port: 80
+    type: LoadBalancer
+    loadBalancerIP: 20.124.164.210
+    annotations: {}
+
+  securityContext:
+    fsGroup: 2001
+  containerSecurityContext: {}
+  setPermissions: true
+  ports:
+    http: 8080
+    ehcache: 40001
+    ehcacheobject: 40011
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    failureThreshold: 30
+  accessLog:
+    mountPath: "/opt/atlassian/jira/logs"
+    localHomeSubPath: "log"
+  clustering:
+    enabled: false
+
+  shutdown:
+    terminationGracePeriodSeconds: 30
+    command: "/shutdown-wait.sh"
+
+  # Pod resource requests
+  #
+  resources:
+    jvm:
+      maxHeap: "768m"
+      minHeap: "384m"
+      reservedCodeCache: "512m"
+    container:
+      requests:
+        cpu: "1"
+        memory: "1G"
+      #  limits:
+      #    cpu: "2"
+      #    memory: "2G"
+
+  additionalJvmArgs: []
+  additionalLibraries: []
+  additionalBundledPlugins: []
+  additionalVolumeMounts: []
+  additionalEnvironmentVariables: []
+  additionalPorts: []
+  additionalVolumeClaimTemplates: []
+  topologySpreadConstraints: []
+
+# Fluentd configuration
+#
+# Jira log collection and aggregation can be enabled using Fluentd. This config
+# assumes an existing ELK stack has been stood up and is available.
+# https://www.fluentd.org/
+#
+fluentd:
+
+  # -- Set to 'true' if the Fluentd sidecar (DaemonSet) should be added to each pod
+  #
+  enabled: false
+  
+  # -- The Fluentd sidecar image
+  #
+  imageName: fluent/fluentd-kubernetes-daemonset:v1.11.5-debian-elasticsearch7-1.2
+
+  # -- The command used to start Fluentd. If not supplied the default command
+  # will be used: "fluentd -c /fluentd/etc/fluent.conf -v"
+  #
+  # Note: The custom command can be free-form, however pay particular attention to
+  # the process that should ultimately be left running in the container. This process
+  # should be invoked with 'exec' so that signals are appropriately propagated to it,
+  # for instance SIGTERM. An example of how such a command may look is:
+  # "<command 1> && <command 2> && exec <primary command>"
+  command:
+  
+  # -- Set to 'true' if a custom config (see 'configmap-fluentd.yaml' for default)
+  # should be used for Fluentd. If enabled this config must be supplied via the
+  # 'fluentdCustomConfig' property below.
+  #
+  customConfigFile: false
+  
+  # -- Custom fluent.conf file
+  #
+  fluentdCustomConfig: {}
+  # fluent.conf: |
+    # <source>
+    #   @type tail
+    #   <parse>
+    #   @type multiline
+    #   format_firstline /\d{4}-\d{1,2}-\d{1,2}/
+    #   </parse>
+    #   path /opt/atlassian/jira/logs/access_log.*
+    #   pos_file /tmp/jiralog.pos
+    #   tag jira-access-logs
+    # </source>
+  
+  # -- The port on which the Fluentd sidecar will listen
+  #
+  httpPort: 9880
+  
+  # Elasticsearch config based on your ELK stack
+  #
+  elasticsearch:
+  
+    # -- Set to 'true' if Fluentd should send all log events to an Elasticsearch service.
+    #
+    enabled: true
+    
+    # -- The hostname of the Elasticsearch service that Fluentd should send logs to.
+    #
+    hostname: elasticsearch
+    
+    # -- The prefix of the Elasticsearch index name that will be used
+    #
+    indexNamePrefix: jira
+    
+  # -- Specify custom volumes to be added to Fluentd container (e.g. more log sources)
+  #
+  extraVolumes: []
+  # - name: local-home
+  #   mountPath: /opt/atlassian/jira/logs
+  #   subPath: log
+  #   readOnly: true
+  
+  
+# -- Custom annotations that will be applied to all Jira pods
+#
+podAnnotations: {}
+#  name: <value>
+
+# -- Custom labels that will be applied to all Jira pods
+#
+podLabels: {}
+#  name: <value>
+
+# -- Standard K8s node-selectors that will be applied to all Jira pods
+#
+nodeSelector: {}
+#  name: <value>
+
+# -- Standard K8s tolerations that will be applied to all Jira pods
+#
+tolerations: []
+# - effect: <name>
+#   operator: <operator>
+#   key: <key>
+
+# -- Standard K8s affinities that will be applied to all Jira pods
+#
+affinity: {}
+#  name: <value>
+
+# -- Standard K8s schedulerName that will be applied to all Jira pods.
+# Check Kubernetes documentation on how to configure multiple schedulers:
+# https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/#specify-schedulers-for-pods
+#
+schedulerName:
+
+# -- Additional container definitions that will be added to all Jira pods
+#
+additionalContainers: []
+#  - name: <name>
+#    image: <image>:<tag>
+
+# -- Additional initContainer definitions that will be added to all Jira pods
+#
+additionalInitContainers: []
+#  - name: <name>
+#    image: <image>:<tag>
+
+# -- Additional labels that should be applied to all resources
+#
+additionalLabels: {}
+#  name: <value>
+
+# -- Additional existing ConfigMaps and Secrets not managed by Helm that should be
+# mounted into service container. Configuration details below (camelCase is important!):
+  # 'name'      - References existing ConfigMap or secret name.
+  # 'type'      - 'configMap' or 'secret'
+  # 'key'       - The file name.
+  # 'mountPath' - The destination directory in a container.
+# VolumeMount and Volumes are added with this name and index position, for example;
+# custom-config-0, keystore-2
+#
+additionalFiles: []
+#  - name: custom-config
+#    type: configMap
+#    key: log4j.properties
+#    mountPath:  /var/atlassian
+#  - name: custom-config
+#    type: configMap
+#    key: web.xml
+#    mountPath: /var/atlassian
+#  - name: keystore
+#    type: secret
+#    key: keystore.jks
+#    mountPath: /var/ssl

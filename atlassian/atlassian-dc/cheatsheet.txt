@@ -1,0 +1,6 @@
+1. ssh into pod: kubectl exec --stdin --tty postgres-6bdb87d55b-h4kjg -- /bin/bash
+2. get pvc status: kubectl get pvc nfs-atlassian
+3. delete pvc claim : kubectl delete pvc confluence-postgres-pv-claim
+4. create nameespace: kubectl create namespace my-namespace
+5. kubectl config set-context --current --namespace=
+6. get service list: kubectl get service --watch

@@ -1,0 +1,105 @@
+######################### Install and Uninstall Apps ####################
+Install an app:
+
+    helm install [app-name] [chart]
+
+Install an app in a specific namespace:
+
+    helm install [app-name] [chart] --namespace [namespace]
+
+Override the default values with those specified in a file of your choice:
+
+    helm install [app-name] [chart] --values [yaml-file/url]
+
+Run a test installation to validate and verify the chart:
+
+    helm install [app-name] --dry-run --debug
+
+Uninstall a release:
+
+    helm uninstall [release]
+################### Add, Remove, and Update Repositories ######################
+
+Add a repository from the internet:
+
+    helm repo add [repository-name] [url]
+
+Remove a repository from your system:
+
+    helm repo remove [repository-name]
+
+Update repositories:
+
+    helm repo update
+
+#################### List and Search Repositories ########################
+List chart repositories:
+
+    helm repo list
+
+Generate an index file containing charts found in the current directory:
+
+    helm repo index
+
+Search charts for a keyword:
+
+    helm search [keyword]
+
+Search repositories for a keyword:
+
+    helm search repo [keyword]
+
+Search Helm Hub:
+
+    helm search hub [keyword]
+
+#################### Chart Management #####################
+Create a directory containing the common chart files and directories (chart.yaml, values.yaml, charts/ and templates/):
+
+    helm create [name]
+
+Package a chart into a chart archive:
+
+    helm package [chart-path]
+
+Run tests to examine a chart and identify possible issues:
+
+    helm lint [chart]
+
+Inspect a chart and list its contents:
+
+    helm show all [chart]
+
+Display the chart’s definition:
+
+    helm show chart [chart]
+
+Display the chart’s values:
+
+    helm show values [chart]
+
+Download a chart:
+
+    helm pull [chart]
+
+Download a chart and extract the archive’s contents into a directory:
+
+    helm pull [chart] --untar --untardir [directory]
+
+Display a list of a chart’s dependencies:
+
+    helm dependency list [chart]
+
+Check Syntax
+    helm template chartname
+
+    curl -k \
+        -u 6ac178be-9271-43fa-9406-636e5cc3b2b9:LbZzKzIdfAYi3v1/+605Y/i4Mp4= \
+        -X GET -o twistcli \
+    'https://us-east1.cloud.twistlock.com/us-1-111573304/api/v22.01/util/twistcli'
+
+
+
+
+RUN /bin/sh -c chmod a+xRUN /bin/sh -c chmod a+x
+
