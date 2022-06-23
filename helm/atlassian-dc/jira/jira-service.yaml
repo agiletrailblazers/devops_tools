@@ -1,0 +1,17 @@
+apiVersion: v1                #PostgreSQL Service
+kind: Service
+metadata:
+  name: jira-service
+  labels:
+    app: jira-service
+spec:
+  type: LoadBalancer
+  ports:
+   - port: 8080
+     targetPort: 8080
+  selector:
+   app: jira
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 600

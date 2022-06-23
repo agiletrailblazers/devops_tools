@@ -68,8 +68,6 @@ volumes:
       resources:
         requests:
           storage: 1Gi
-
-    customVolume: {}
     mountPath: "/var/atlassian/application-data/jira"
 
   sharedHome:
@@ -80,8 +78,6 @@ volumes:
       resources:
         requests:
           storage: 1Gi
-
-    customVolume: {}
     mountPath: "/var/atlassian/application-data/shared-home"
     subPath:
     nfsPermissionFixer:

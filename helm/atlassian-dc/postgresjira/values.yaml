@@ -1,0 +1,99 @@
+# Default values for postgresjira.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: postgres
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+postgresql:
+  username: jiraadmin
+  password: CLATB2022Admin!
+  database: jiradb
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: NodePort
+  port: 5432
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 250m
+volumes:
+
+  # Each pod requires its own volume for 'local-home'. This is needed for key data
+  # that help define how Jira works.
+  # https://confluence.atlassian.com/adminjiraserver/jira-application-home-directory-938847746.html
+  #
+  pgHome:
+
+    # Dynamic provisioning of local-home using the K8s Storage Classes
+    #
+    # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#dynamic
+    # https://atlassian.github.io/data-center-helm-charts/examples/storage/aws/LOCAL_STORAGE/
+    #
+    persistentVolumeClaim:
+      name: jira-postgres-pv-claim
+    mountPath: "/var/lib/postgresql"
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
