@@ -59,18 +59,7 @@ resources:
     memory: 256Mi
     cpu: 250m
 volumes:
-
-  # Each pod requires its own volume for 'local-home'. This is needed for key data
-  # that help define how Jira works.
-  # https://confluence.atlassian.com/adminjiraserver/jira-application-home-directory-938847746.html
-  #
   pgHome:
-
-    # Dynamic provisioning of local-home using the K8s Storage Classes
-    #
-    # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#dynamic
-    # https://atlassian.github.io/data-center-helm-charts/examples/storage/aws/LOCAL_STORAGE/
-    #
     persistentVolumeClaim:
       name: jira-postgres-pv-claim
     mountPath: "/var/lib/postgresql"

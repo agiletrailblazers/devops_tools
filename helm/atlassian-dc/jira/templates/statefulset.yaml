@@ -167,14 +167,12 @@ spec:
       schedulerName: {{ .Values.schedulerName  | quote }}
       {{- end }}
       volumes:
-        {{- range $i, $n := .Values.additionalFiles }}
-        - name: {{ .name }}-{{$i}}
-          {{ .type }}:
-            {{ if hasPrefix .type "secret" }}{{ .type}}Name{{ else }}name{{ end }}: {{ .name }}
-            items:
-              - key: {{ .key }}
-                path: {{ .key }}
-        {{ end }}
+        - name: {{ .Release.Name }}-node1home-mount
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumes.localHome.persistentVolumeClaim.name }}
+        - name: {{ .Release.Name }}-shared-mount
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumes.sharedHome.persistentVolumeClaim.name }}
         {{ include "jira.volumes" . | nindent 8 }}
         {{ include "fluentd.config.volume" . | nindent 8 }}
   {{ include "jira.volumeClaimTemplates" . | nindent 2 }}

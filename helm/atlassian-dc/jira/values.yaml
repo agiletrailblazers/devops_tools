@@ -62,22 +62,13 @@ database:
 volumes:
   localHome:
     persistentVolumeClaim:
-      name: "jira-node1-pv-claim"
-      create: false
-      storageClassName:
-      resources:
-        requests:
-          storage: 1Gi
+      name: jira-node1-pv-claim
     mountPath: "/var/atlassian/application-data/jira"
 
   sharedHome:
     persistentVolumeClaim:
       name: jira-shared-home-pv-claim
       create: false
-      storageClassName:
-      resources:
-        requests:
-          storage: 1Gi
     mountPath: "/var/atlassian/application-data/shared-home"
     subPath:
     nfsPermissionFixer:
@@ -106,7 +97,7 @@ jira:
   service:
     port: 80
     type: LoadBalancer
-    loadBalancerIP: 20.124.164.210
+  #  loadBalancerIP: 20.124.151.178
     annotations: {}
 
   securityContext:

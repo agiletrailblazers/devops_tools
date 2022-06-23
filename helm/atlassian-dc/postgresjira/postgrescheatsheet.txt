@@ -1,3 +1,6 @@
+
+ kubectl -f postgresjira/postgres-pvc.yaml -n atlassian apply
+
 helm install -n atlassian postgresjira postgresjira/
 
 helm upgrade -n atlassian --install postgresjira postgresjira/
