@@ -78,7 +78,7 @@ volumes:
   additional: []
 
 ingress:
-  create: false
+  create: true
   className: "nginx"
   nginx: true
   maxBodySize: 250m
@@ -88,7 +88,7 @@ ingress:
   host:
   path:
   annotations: {}
-  https: true
+  https: false
   tlsSecretName:
 
 # Jira configuration
@@ -97,7 +97,6 @@ jira:
   service:
     port: 80
     type: LoadBalancer
-  #  loadBalancerIP: 20.124.151.178
     annotations: {}
 
   securityContext:
