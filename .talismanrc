@@ -1,0 +1,13 @@
+
+fileignoreconfig:
+- filename: helm/ado-agents/charts/index.yaml
+  checksum: b74c52fd4c4511c86fd6678941e63ff1a6d842ee65adf0f120ec7bc892b4aff2
+fileignoreconfig:
+- filename: helm/ado-agents/charts/index.yaml
+  checksum: c0d7657aa5ce92941cb915dd1ba65cc35045096176e499446b81638a147960b0
+fileignoreconfig:
+- filename: helm/ado-agents/charts/index.yaml
+  checksum: d6b07a3b3064a0fde7bbbe93284242579af61452408a791198fed839a266612e
+fileignoreconfig:
+- filename: helm/ado-agents/charts/index.yaml
+  checksum: fb6b4874b0eea2e7efc2f1debe650a0bab9caa034e5e7dbf560e40a47ea7324d

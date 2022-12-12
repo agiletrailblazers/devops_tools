@@ -4,6 +4,10 @@ metadata:
   name: nfs-storage
 provisioner: file.csi.azure.com # replace with "kubernetes.io/azure-file" if aks version is less than 1.21
 allowVolumeExpansion: true
+azureFile:
+  secretName: atlassiannpsecret
+  shareName: atlassianfileshare
+  readOnly: false
 mountOptions:
   - dir_mode=0777
   - file_mode=0777
@@ -13,4 +17,5 @@ mountOptions:
   - cache=strict
   - actimeo=30
 parameters:
-  skuName: Premium_LRS
+  skuName: Premium_LRS # available values: Premium_LRS, Premium_ZRS
+  protocol: nfs

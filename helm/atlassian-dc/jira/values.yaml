@@ -87,7 +87,7 @@ ingress:
   proxySendTimeout: 60
   host:
   path:
-  annotations: {}
+  annotations: {}0
   https: false
   tlsSecretName:
 
