@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: jira-node2
-      image: "agiletrailblazers/jira-software:8.8.0"
+      image: "agiletrailblazers/jira-software:9.5.0.2"
       ports:
         - containerPort: 8080
         - containerPort: 40001
