@@ -50,7 +50,7 @@ services:
   confluence:
     depends_on:
       - pgdb
-    image: atlassian/confluence-server:6.15.2
+    image: atlassian/confluence-server:8.4.0
     networks:
       - atlassiannet
     volumes:
@@ -59,15 +59,20 @@ services:
       - 8090:8090
     environment:
       - 'ATL_JDBC_URL=jdbc:postgresql://pgdb/confluencedb'
-      - 'ATL_JDBC_USER=atlassian'
-      - 'ATL_JDBC_PASSWORD=password'
+      - 'ATL_JDBC_USER=confluenceadmin'
+      - 'ATL_JDBC_PASSWORD=CLATB2020Admin!'
+      - 'JVM_MINIMUM_MEMORY=2048m'
+      - 'JVM_MAXIMUM_MEMORY=2048m'
       - ATL_DB_DRIVER=org.postgresql.Driver
       - ATL_DB_TYPE=postgresql
-      - ATL_TOMCAT_CONTEXTPATH=/confluence
-      - ATL_PROXY_NAME=pilot.agiletrailblazers.com
+      - ATL_PROXY_NAME=confluence.agiletrailblazers.com
       - ATL_TOMCAT_SCHEME=https
       - ATL_PROXY_PORT=443
       - ATL_TOMCAT_CONNECTIONTIMEOUT=65000
+      - ATL_TOMCAT_MAXTHREADS=35
+      - CATALINA_OPTS=-Xms2g -Xmx4g
+     # - JVM_MINIMUM_MEMORY="2048m"
+     # - JVM_MAXIMUM_MEMORY="2048m"
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
